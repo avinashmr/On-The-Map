@@ -8,20 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		E184A42D1CB5B8C300DFCB03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A42C1CB5B8C300DFCB03 /* AppDelegate.swift */; };
-		E184A42F1CB5B8C300DFCB03 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A42E1CB5B8C300DFCB03 /* ViewController.swift */; };
+		E184A42F1CB5B8C300DFCB03 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A42E1CB5B8C300DFCB03 /* LoginViewController.swift */; };
 		E184A4321CB5B8C300DFCB03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E184A4301CB5B8C300DFCB03 /* Main.storyboard */; };
 		E184A4341CB5B8C300DFCB03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E184A4331CB5B8C300DFCB03 /* Assets.xcassets */; };
 		E184A4371CB5B8C300DFCB03 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E184A4351CB5B8C300DFCB03 /* LaunchScreen.storyboard */; };
+		E184A4441CB6161C00DFCB03 /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4431CB6161C00DFCB03 /* BorderedButton.swift */; };
+		E184A4461CB6180700DFCB03 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4451CB6180700DFCB03 /* UIConstants.swift */; };
+		E184A4491CB6202400DFCB03 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4481CB6202400DFCB03 /* GCDBlackBox.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E184A4291CB5B8C300DFCB03 /* On The Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "On The Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E184A42C1CB5B8C300DFCB03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E184A42E1CB5B8C300DFCB03 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E184A42E1CB5B8C300DFCB03 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E184A4311CB5B8C300DFCB03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E184A4331CB5B8C300DFCB03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E184A4361CB5B8C300DFCB03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E184A4381CB5B8C300DFCB03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E184A4431CB6161C00DFCB03 /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
+		E184A4451CB6180700DFCB03 /* UIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
+		E184A4481CB6202400DFCB03 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,13 +61,64 @@
 			isa = PBXGroup;
 			children = (
 				E184A42C1CB5B8C300DFCB03 /* AppDelegate.swift */,
-				E184A42E1CB5B8C300DFCB03 /* ViewController.swift */,
-				E184A4301CB5B8C300DFCB03 /* Main.storyboard */,
-				E184A4331CB5B8C300DFCB03 /* Assets.xcassets */,
-				E184A4351CB5B8C300DFCB03 /* LaunchScreen.storyboard */,
-				E184A4381CB5B8C300DFCB03 /* Info.plist */,
+				E184A4481CB6202400DFCB03 /* GCDBlackBox.swift */,
+				E184A43E1CB60FF100DFCB03 /* Model */,
+				E184A43F1CB60FF700DFCB03 /* View */,
+				E184A4401CB60FFD00DFCB03 /* Controller */,
+				E184A4411CB6104100DFCB03 /* Assets */,
+				E184A4421CB6108300DFCB03 /* Supporting Files */,
 			);
 			path = "On The Map";
+			sourceTree = "<group>";
+		};
+		E184A43E1CB60FF100DFCB03 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E184A4471CB6181700DFCB03 /* UI */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		E184A43F1CB60FF700DFCB03 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E184A4431CB6161C00DFCB03 /* BorderedButton.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		E184A4401CB60FFD00DFCB03 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				E184A42E1CB5B8C300DFCB03 /* LoginViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		E184A4411CB6104100DFCB03 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				E184A4331CB5B8C300DFCB03 /* Assets.xcassets */,
+				E184A4301CB5B8C300DFCB03 /* Main.storyboard */,
+				E184A4351CB5B8C300DFCB03 /* LaunchScreen.storyboard */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		E184A4421CB6108300DFCB03 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E184A4381CB5B8C300DFCB03 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E184A4471CB6181700DFCB03 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				E184A4451CB6180700DFCB03 /* UIConstants.swift */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,8 +192,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E184A42F1CB5B8C300DFCB03 /* ViewController.swift in Sources */,
+				E184A42F1CB5B8C300DFCB03 /* LoginViewController.swift in Sources */,
 				E184A42D1CB5B8C300DFCB03 /* AppDelegate.swift in Sources */,
+				E184A4441CB6161C00DFCB03 /* BorderedButton.swift in Sources */,
+				E184A4461CB6180700DFCB03 /* UIConstants.swift in Sources */,
+				E184A4491CB6202400DFCB03 /* GCDBlackBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
