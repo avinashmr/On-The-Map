@@ -22,6 +22,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginButton: BorderedButton!
     @IBOutlet weak var udacityLogo: UIImageView!
     @IBOutlet weak var debugTextLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loginStackView: UIStackView!
     
     
     
@@ -63,7 +65,7 @@ class LoginViewController: UIViewController {
     func loginToUdacity() {
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
-            
+            startActivityIndicatorAndFade()
             UClient.sharedInstance().createASession(usernameTextField.text!, password: passwordTextField.text!, completionHandlerForSession: { (success, userID, errorString) in
                 if success {
                     self.completeLogin()
@@ -87,7 +89,7 @@ class LoginViewController: UIViewController {
         performUIUpdatesOnMain {
             self.debugTextLabel.text = ""
             self.setUIEnabled(true)
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("BlahTabBarController") as! UITabBarController
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
             self.presentViewController(controller, animated: true, completion: nil)
         }
     }
@@ -173,6 +175,8 @@ extension LoginViewController {
     }
     
     private func configureUI() {
+        activityIndicator.hidden = true
+        activityIndicator.stopAnimating()
         
         // configure background gradient
         let backgroundGradient = CAGradientLayer()
@@ -183,6 +187,7 @@ extension LoginViewController {
         
         configureTextField(usernameTextField)
         configureTextField(passwordTextField)
+        
     }
     
     private func configureTextField(textField: UITextField) {
@@ -195,6 +200,13 @@ extension LoginViewController {
         textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
         textField.tintColor = UIConstants.UI.BlueColor
         textField.delegate = self
+    }
+    
+    func startActivityIndicatorAndFade() {
+        activityIndicator.hidden = false
+        activityIndicator.startAnimating()
+        loginButton.enabled = false
+        loginStackView.alpha = 0.5
     }
 }
 
