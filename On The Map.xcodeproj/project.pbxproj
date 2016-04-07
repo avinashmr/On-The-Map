@@ -15,6 +15,9 @@
 		E184A4441CB6161C00DFCB03 /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4431CB6161C00DFCB03 /* BorderedButton.swift */; };
 		E184A4461CB6180700DFCB03 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4451CB6180700DFCB03 /* UIConstants.swift */; };
 		E184A4491CB6202400DFCB03 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4481CB6202400DFCB03 /* GCDBlackBox.swift */; };
+		E184A44C1CB6C03200DFCB03 /* UClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A44B1CB6C03200DFCB03 /* UClient.swift */; };
+		E184A44E1CB6C0F800DFCB03 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A44D1CB6C0F800DFCB03 /* Reachability.swift */; };
+		E184A4501CB6C4DD00DFCB03 /* UConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A44F1CB6C4DD00DFCB03 /* UConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		E184A4431CB6161C00DFCB03 /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
 		E184A4451CB6180700DFCB03 /* UIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
 		E184A4481CB6202400DFCB03 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
+		E184A44B1CB6C03200DFCB03 /* UClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UClient.swift; sourceTree = "<group>"; };
+		E184A44D1CB6C0F800DFCB03 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		E184A44F1CB6C4DD00DFCB03 /* UConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,7 @@
 			children = (
 				E184A42C1CB5B8C300DFCB03 /* AppDelegate.swift */,
 				E184A4481CB6202400DFCB03 /* GCDBlackBox.swift */,
+				E184A44D1CB6C0F800DFCB03 /* Reachability.swift */,
 				E184A43E1CB60FF100DFCB03 /* Model */,
 				E184A43F1CB60FF700DFCB03 /* View */,
 				E184A4401CB60FFD00DFCB03 /* Controller */,
@@ -74,6 +81,7 @@
 		E184A43E1CB60FF100DFCB03 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E184A44A1CB6C02600DFCB03 /* Udacity */,
 				E184A4471CB6181700DFCB03 /* UI */,
 			);
 			name = Model;
@@ -119,6 +127,15 @@
 				E184A4451CB6180700DFCB03 /* UIConstants.swift */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		E184A44A1CB6C02600DFCB03 /* Udacity */ = {
+			isa = PBXGroup;
+			children = (
+				E184A44B1CB6C03200DFCB03 /* UClient.swift */,
+				E184A44F1CB6C4DD00DFCB03 /* UConstants.swift */,
+			);
+			name = Udacity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,10 +209,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E184A44E1CB6C0F800DFCB03 /* Reachability.swift in Sources */,
 				E184A42F1CB5B8C300DFCB03 /* LoginViewController.swift in Sources */,
 				E184A42D1CB5B8C300DFCB03 /* AppDelegate.swift in Sources */,
 				E184A4441CB6161C00DFCB03 /* BorderedButton.swift in Sources */,
 				E184A4461CB6180700DFCB03 /* UIConstants.swift in Sources */,
+				E184A4501CB6C4DD00DFCB03 /* UConstants.swift in Sources */,
+				E184A44C1CB6C03200DFCB03 /* UClient.swift in Sources */,
 				E184A4491CB6202400DFCB03 /* GCDBlackBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
