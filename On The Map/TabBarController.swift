@@ -10,5 +10,8 @@ import UIKit
 
 class TabBarController: UITabBarController {
     
-    
+    func downloadData(viewController: UIViewController, view: UIView, completionHandler: (success: Bool, error: String?) -> Void) {
+        
+        UClient.sharedInstance().
+    }
 }

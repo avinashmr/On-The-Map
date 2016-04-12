@@ -20,8 +20,9 @@
 		E184A4501CB6C4DD00DFCB03 /* UConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A44F1CB6C4DD00DFCB03 /* UConstants.swift */; };
 		E184A4521CB7184500DFCB03 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4511CB7184500DFCB03 /* MapViewController.swift */; };
 		E184A4541CB724E500DFCB03 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4531CB724E500DFCB03 /* TabBarController.swift */; };
-		E184A4571CB728D200DFCB03 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4561CB728D200DFCB03 /* ParseConstants.swift */; };
-		E184A4591CB728F800DFCB03 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4581CB728F800DFCB03 /* ParseClient.swift */; };
+		E184A45C1CBD5C5300DFCB03 /* OTMClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A45B1CBD5C5300DFCB03 /* OTMClient.swift */; };
+		E184A45E1CBD5C5E00DFCB03 /* OTMConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A45D1CBD5C5E00DFCB03 /* OTMConstants.swift */; };
+		E184A4601CBD5C6900DFCB03 /* OTMConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A45F1CBD5C6900DFCB03 /* OTMConvenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,8 +41,9 @@
 		E184A44F1CB6C4DD00DFCB03 /* UConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UConstants.swift; sourceTree = "<group>"; };
 		E184A4511CB7184500DFCB03 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		E184A4531CB724E500DFCB03 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		E184A4561CB728D200DFCB03 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
-		E184A4581CB728F800DFCB03 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseClient.swift; sourceTree = "<group>"; };
+		E184A45B1CBD5C5300DFCB03 /* OTMClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMClient.swift; sourceTree = "<group>"; };
+		E184A45D1CBD5C5E00DFCB03 /* OTMConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMConstants.swift; sourceTree = "<group>"; };
+		E184A45F1CBD5C6900DFCB03 /* OTMConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMConvenience.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +91,7 @@
 		E184A43E1CB60FF100DFCB03 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E184A4551CB7280E00DFCB03 /* Parse */,
+				E184A45A1CBD5C4400DFCB03 /* OTM */,
 				E184A44A1CB6C02600DFCB03 /* Udacity */,
 				E184A4471CB6181700DFCB03 /* UI */,
 			);
@@ -149,13 +151,14 @@
 			name = Udacity;
 			sourceTree = "<group>";
 		};
-		E184A4551CB7280E00DFCB03 /* Parse */ = {
+		E184A45A1CBD5C4400DFCB03 /* OTM */ = {
 			isa = PBXGroup;
 			children = (
-				E184A4561CB728D200DFCB03 /* ParseConstants.swift */,
-				E184A4581CB728F800DFCB03 /* ParseClient.swift */,
+				E184A45B1CBD5C5300DFCB03 /* OTMClient.swift */,
+				E184A45D1CBD5C5E00DFCB03 /* OTMConstants.swift */,
+				E184A45F1CBD5C6900DFCB03 /* OTMConvenience.swift */,
 			);
-			name = Parse;
+			name = OTM;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,13 +234,14 @@
 			files = (
 				E184A44E1CB6C0F800DFCB03 /* Reachability.swift in Sources */,
 				E184A42F1CB5B8C300DFCB03 /* LoginViewController.swift in Sources */,
-				E184A4571CB728D200DFCB03 /* ParseConstants.swift in Sources */,
 				E184A42D1CB5B8C300DFCB03 /* AppDelegate.swift in Sources */,
 				E184A4541CB724E500DFCB03 /* TabBarController.swift in Sources */,
 				E184A4441CB6161C00DFCB03 /* BorderedButton.swift in Sources */,
+				E184A45C1CBD5C5300DFCB03 /* OTMClient.swift in Sources */,
+				E184A45E1CBD5C5E00DFCB03 /* OTMConstants.swift in Sources */,
 				E184A4521CB7184500DFCB03 /* MapViewController.swift in Sources */,
-				E184A4591CB728F800DFCB03 /* ParseClient.swift in Sources */,
 				E184A4461CB6180700DFCB03 /* UIConstants.swift in Sources */,
+				E184A4601CBD5C6900DFCB03 /* OTMConvenience.swift in Sources */,
 				E184A4501CB6C4DD00DFCB03 /* UConstants.swift in Sources */,
 				E184A44C1CB6C03200DFCB03 /* UClient.swift in Sources */,
 				E184A4491CB6202400DFCB03 /* GCDBlackBox.swift in Sources */,
@@ -392,6 +396,7 @@
 				E184A43D1CB5B8C300DFCB03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

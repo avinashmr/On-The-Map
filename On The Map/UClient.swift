@@ -120,21 +120,21 @@ class UClient: NSObject {
         completionHandlerForConvertData(result: parsedResult, error: nil)
     }
     
-    private func UURLFromParameters(parameters: [String:AnyObject], withPathExtension: String? = nil) -> NSURL {
-        
-        let components = NSURLComponents()
-        components.scheme = UClient.Constants.ApiScheme
-        components.host = UClient.Constants.ApiHost
-        components.path = UClient.Constants.ApiPath + (withPathExtension ?? "")
-        components.queryItems = [NSURLQueryItem]()
-        
-        for (key, value) in parameters {
-            let queryItem = NSURLQueryItem(name: key, value: "\(value)")
-            components.queryItems!.append(queryItem)
-        }
-        
-        return components.URL!
-    }
+//    private func UURLFromParameters(parameters: [String:AnyObject], withPathExtension: String? = nil) -> NSURL {
+//        
+//        let components = NSURLComponents()
+//        components.scheme = UClient.Constants.ApiScheme
+//        components.host = UClient.Constants.ApiHost
+//        components.path = UClient.Constants.ApiPath + (withPathExtension ?? "")
+//        components.queryItems = [NSURLQueryItem]()
+//        
+//        for (key, value) in parameters {
+//            let queryItem = NSURLQueryItem(name: key, value: "\(value)")
+//            components.queryItems!.append(queryItem)
+//        }
+//        
+//        return components.URL!
+//    }
     
     // MARK: Shared Instance
     
