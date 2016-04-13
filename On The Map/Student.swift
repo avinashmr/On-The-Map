@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Student {
+struct StudentInformation {
     
     let uniqueKey: String
     let firstName: String

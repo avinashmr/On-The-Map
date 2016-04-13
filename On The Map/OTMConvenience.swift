@@ -81,7 +81,7 @@ extension OTMClient {
     }
     
     // GETting Public User Data
-    private func getPublicUserData(uniqueKey: String?, completionHandlerForUserData: (success: Bool, student: Student?, error: NSError?) -> Void) {
+    private func getPublicUserData(uniqueKey: String?, completionHandlerForUserData: (success: Bool, student: StudentInformation?, error: NSError?) -> Void) {
         
         let parameters: [String:AnyObject] = [String:AnyObject]()
         let method = Methods.UserDataURL + uniqueKey!
@@ -93,7 +93,7 @@ extension OTMClient {
                 if let lastName = result.valueForKey(JSONResponseKeys.User)?.valueForKey(JSONResponseKeys.Last_Name) as? String {
                     if let firstName = result.valueForKey(JSONResponseKeys.User)?.valueForKey(JSONResponseKeys.First_Name) as? String {
                         if let uniqueKey = result.valueForKey(JSONResponseKeys.User)?.valueForKey(JSONResponseKeys.Key) as? String {
-                            self.currentStudent = Student(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName)
+                            self.currentStudent = StudentInformation(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName)
                             print(firstName + lastName + uniqueKey)
                             completionHandlerForUserData(success: true, student: self.currentStudent, error: nil)
                         }

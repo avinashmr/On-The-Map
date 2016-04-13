@@ -18,8 +18,8 @@ class OTMClient: NSObject {
     // authentication state
     var sessionID: String? = nil
     var uniqueKey: String? = nil
-    var currentStudent: Student? = nil
-    var students: [Student]? = nil
+    var currentStudent: StudentInformation? = nil
+    var students: [StudentInformation]? = nil
     
     // MARK: Initializers
     
