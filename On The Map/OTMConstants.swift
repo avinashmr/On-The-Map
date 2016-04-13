@@ -10,6 +10,14 @@ import Foundation
 
 extension OTMClient {
     
+    struct Method {
+        
+        static let ApiScheme = "https"
+        static let ApiHost = "www.udacity.com/"
+        static let ApiPath = "/api"
+        static let AuthorizationURL : String = "https://www.udacity.com/api/session"
+    }
+    
     // MARK: JSON Response Keys
     struct JSONResponseKeys {
         
@@ -37,6 +45,21 @@ extension OTMClient {
         
         static let AccessToken = "access_token"
         static let FacebookMobile = "facebook_mobile"
+    }
+    
+    // MARK: JSON Body Keys
+    struct JSONBodyKeys {
+        static let Udacity = "udacity"
+        static let Username = "username"
+        static let Password = "password"
+        static let objectId = "objectId"
+        static let uniqueKey = "uniqueKey"
+        static let firstName = "firstName"
+        static let lastName = "lastName"
+        static let mapString = "mapString"
+        static let mediaURL = "mediaURL"
+        static let latitude = "latitude"
+        static let longitude = "longitude"
     }
 
 }

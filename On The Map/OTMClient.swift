@@ -15,13 +15,9 @@ class OTMClient: NSObject {
     // shared session
     var session = NSURLSession.sharedSession()
     
-    // configuration object
-//    var config = TMDBConfig()
-    
     // authentication state
-    var requestToken: String? = nil
     var sessionID: String? = nil
-    var userID: Int? = nil
+    var uniqueKey: String? = nil
     
     // MARK: Initializers
     
@@ -31,7 +27,7 @@ class OTMClient: NSObject {
     
     // MARK: POST
     
-    func taskForPOSTMethod(method: String, udacity: Bool, parameters: [String:AnyObject]?, jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForPOSTMethod(method: String, udacity: Bool, parameters: [String:AnyObject]?, jsonBody: [String:AnyObject], completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters */
         var urlString: String
@@ -52,17 +48,24 @@ class OTMClient: NSObject {
         if udacity {
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
+//            request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
             
         } else {
             // TODO: Parse Request
         }
+        
+        do {
+            request.HTTPBody = try NSJSONSerialization.dataWithJSONObject(jsonBody, options: [])
+        } catch _ as NSError {
+            request.HTTPBody = nil
+        }
+        
     
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
             if let JSONError = error {
-                _ = OTMClient.errorForData(data, response: response, error: error!)
+                _ = OTMClient.errorForData(data, response: response, error: JSONError)
                 completionHandlerForPOST(result: nil, error: error)
             } else {
                 var newData = data
@@ -133,5 +136,14 @@ class OTMClient: NSObject {
             
             return "?\(keyValuePairs.joinWithSeparator("&"))"
         }
+    }
+    
+    // MARK: Shared Instance
+    
+    class func sharedInstance() -> OTMClient {
+        struct Singleton {
+            static var sharedInstance = OTMClient()
+        }
+        return Singleton.sharedInstance
     }
 }

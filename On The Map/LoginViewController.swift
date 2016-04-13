@@ -38,69 +38,32 @@ class LoginViewController: UIViewController {
         subscribeToNotification(UIKeyboardDidHideNotification, selector: UIConstants.Selectors.KeyboardDidHide)
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     //MARK: Login Button Press
     
     @IBAction func loginPressed(sender: AnyObject) {
         
-        userDidTapView(self)
-        
-        if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-            
-            // TODO: Change to Alert View
-            debugTextLabel.text = "Username or Password Empty."
-        } else {
-            setUIEnabled(false)
-
-        }
-        loginToUdacity()
-        
-    }
-    
-    func loginToUdacity() {
-        if Reachability.isConnectedToNetwork() == true {
-            print("Internet connection OK")
-            startActivityIndicatorAndFade()
-            UClient.sharedInstance().createASession(usernameTextField.text!, password: passwordTextField.text!, completionHandlerForSession: { (success, userID, errorString) in
+        OTMClient.sharedInstance().authenticateWithUdacity(usernameTextField.text, password: passwordTextField.text) { (success, errorString) in
+            performUIUpdatesOnMain({ 
                 if success {
                     self.completeLogin()
                 } else {
                     self.displayError(errorString)
                 }
             })
-            
-        } else {
-            print("Internet connection FAILED")
-            let alert = UIAlertController(title: "No Internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .Alert)
-            
-
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-            
         }
+        
     }
     
     private func completeLogin() {
-        performUIUpdatesOnMain {
-            self.debugTextLabel.text = ""
-            self.setUIEnabled(true)
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
-            self.presentViewController(controller, animated: true, completion: nil)
-        }
+        print("Successfully Logged into Udacity")
     }
     
-    private func displayError(errorString: String?) {
-        if let errorString = errorString {
-            debugTextLabel.text = errorString
-        }
+    func displayError(errorString: String?) {
+        print(errorString)
     }
-
 }
+
 
 // MARK: - LoginViewController: UITextFieldDelegate
 
