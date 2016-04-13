@@ -10,12 +10,13 @@ import Foundation
 
 extension OTMClient {
     
-    struct Method {
+    struct Methods {
         
         static let ApiScheme = "https"
         static let ApiHost = "www.udacity.com/"
         static let ApiPath = "/api"
-        static let AuthorizationURL : String = "https://www.udacity.com/api/session"
+        static let AuthorizationURL: String = "https://www.udacity.com/api/session"
+        static let UserDataURL: String = "https://www.udacity.com/api/users/"
     }
     
     // MARK: JSON Response Keys

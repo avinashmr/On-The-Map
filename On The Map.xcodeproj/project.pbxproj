@@ -21,6 +21,7 @@
 		E184A45C1CBD5C5300DFCB03 /* OTMClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A45B1CBD5C5300DFCB03 /* OTMClient.swift */; };
 		E184A45E1CBD5C5E00DFCB03 /* OTMConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A45D1CBD5C5E00DFCB03 /* OTMConstants.swift */; };
 		E184A4601CBD5C6900DFCB03 /* OTMConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A45F1CBD5C6900DFCB03 /* OTMConvenience.swift */; };
+		E184A4621CBEEC0A00DFCB03 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4611CBEEC0A00DFCB03 /* Student.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		E184A45B1CBD5C5300DFCB03 /* OTMClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMClient.swift; sourceTree = "<group>"; };
 		E184A45D1CBD5C5E00DFCB03 /* OTMConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMConstants.swift; sourceTree = "<group>"; };
 		E184A45F1CBD5C6900DFCB03 /* OTMConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMConvenience.swift; sourceTree = "<group>"; };
+		E184A4611CBEEC0A00DFCB03 /* Student.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 		E184A43E1CB60FF100DFCB03 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E184A4611CBEEC0A00DFCB03 /* Student.swift */,
 				E184A45A1CBD5C4400DFCB03 /* OTM */,
 				E184A4471CB6181700DFCB03 /* UI */,
 			);
@@ -225,6 +228,7 @@
 				E184A4441CB6161C00DFCB03 /* BorderedButton.swift in Sources */,
 				E184A45C1CBD5C5300DFCB03 /* OTMClient.swift in Sources */,
 				E184A45E1CBD5C5E00DFCB03 /* OTMConstants.swift in Sources */,
+				E184A4621CBEEC0A00DFCB03 /* Student.swift in Sources */,
 				E184A4521CB7184500DFCB03 /* MapViewController.swift in Sources */,
 				E184A4461CB6180700DFCB03 /* UIConstants.swift in Sources */,
 				E184A4601CBD5C6900DFCB03 /* OTMConvenience.swift in Sources */,
