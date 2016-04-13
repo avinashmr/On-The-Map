@@ -25,7 +25,7 @@ class OTMClient: NSObject {
         super.init()
     }
     
-    // MARK: POST
+    // MARK: - POST
     
     func taskForPOSTMethod(method: String, udacity: Bool, parameters: [String:AnyObject]?, jsonBody: [String:AnyObject], completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
@@ -48,7 +48,6 @@ class OTMClient: NSObject {
         if udacity {
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//            request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
             
         } else {
             // TODO: Parse Request
@@ -79,6 +78,37 @@ class OTMClient: NSObject {
         }
         
         /* 7. Start the request */
+        task.resume()
+        
+        return task
+    }
+    
+    // MARK: - GET
+    
+    func taskForGETMethod(method: String, udacity: Bool, parameters: [String:AnyObject]?, completionHandlerForGET: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        var urlString: String
+        
+        if let mutableParameters = parameters {
+            urlString = method + escapedParameters(mutableParameters)
+        } else {
+            urlString = method
+        }
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            if let dataError = error {
+                OTMClient.errorForData(data, response: response, error: dataError)
+                completionHandlerForGET(result: nil, error: dataError)
+            } else {
+                var newData = data
+                if(udacity){// If it isn't for parse, it is for the Udacity API which it requires to ommit the first 5 characters for security reasons
+                    newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+                }
+                self.convertDataWithCompletionHandler(newData!, completionHandlerForConvertData: completionHandlerForGET)
+            }
+        }
         task.resume()
         
         return task
