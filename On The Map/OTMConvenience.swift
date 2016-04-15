@@ -23,6 +23,7 @@ extension OTMClient {
                 
                 getSessionID(userName, password: password, completionHandlerForSession: { (success, errorString) in
                     if (success) {
+                        
                         self.getPublicUserData(self.uniqueKey, completionHandlerForUserData: { (success, student, error) in
                             if success {
                                 completionHandlerForAuth(success: true, errorString: nil)
@@ -47,15 +48,16 @@ extension OTMClient {
     }
     
     // MARK: - UDACITY
-    // https://docs.google.com/document/d/1MECZgeASBDYrbBg7RlRu9zBBLGd3_kfzsN-0FtURqn0/pub?embedded=true
+    // API Usage: https://docs.google.com/document/d/1MECZgeASBDYrbBg7RlRu9zBBLGd3_kfzsN-0FtURqn0/pub?embedded=true
     
     // POSTing (Creating) a Session
     private func getSessionID(userName: String?, password: String?, completionHandlerForSession: (success: Bool, errorString: NSError?) -> Void) {
         
         
         let mutableMethod: String = Methods.AuthorizationURL
-        let udacityBody: [String:AnyObject] = [JSONBodyKeys.Username: userName!, JSONBodyKeys.Password: password!]
-        let jsonBody: [String:AnyObject] = [JSONBodyKeys.Udacity: udacityBody]
+        let udacityBody: [String:AnyObject] = [HTTPBodyKeys.Username: userName!, HTTPBodyKeys.Password: password!]
+        let jsonBody: [String:AnyObject] = [HTTPBodyKeys.Udacity: udacityBody]
+        
         
         taskForPOSTMethod(mutableMethod, udacity: true, parameters: nil, jsonBody: jsonBody) { (result, error) in
             if let error = error {
@@ -87,21 +89,62 @@ extension OTMClient {
         let method = Methods.UserDataURL + uniqueKey!
         
         taskForGETMethod(method, udacity: true, parameters: parameters) { (result, error) in
-            if (error != nil) {
+            
+            if let error = error {
                 completionHandlerForUserData(success: true, student: nil, error: NSError(domain: "Failed to get User Data", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getPublicUserData"]))
             } else {
+                
                 if let lastName = result.valueForKey(JSONResponseKeys.User)?.valueForKey(JSONResponseKeys.Last_Name) as? String {
                     if let firstName = result.valueForKey(JSONResponseKeys.User)?.valueForKey(JSONResponseKeys.First_Name) as? String {
                         if let uniqueKey = result.valueForKey(JSONResponseKeys.User)?.valueForKey(JSONResponseKeys.Key) as? String {
                             self.currentStudent = StudentInformation(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName)
-                            print(firstName + lastName + uniqueKey)
                             completionHandlerForUserData(success: true, student: self.currentStudent, error: nil)
                         }
                     }
                 } else {
                     completionHandlerForUserData(success: true, student: nil, error: NSError(domain: "Failed to get User Data", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getPublicUserData"]))
                 }
+ 
+                
+                
+
+                
+                
             }
         }
     }
+
+
+    // MARK: - PARSE
+    // API Usage: https://docs.google.com/document/d/1E7JIiRxFR3nBiUUzkKal44l9JkSyqNWvQrNH4pDrOFU/pub?embedded=true
+    
+    
+    func getStudentLocations(limit: Int?, completionHandlerForLocation: (success: Bool, students: [StudentInformation]?, error: String?) -> Void) {
+        
+        let parameters: [String:AnyObject] = [
+            "limit": limit!,
+            "skip": 0,
+            "order": "-updatedAt"
+        ]
+        
+        let method = Methods.StudentLocations + OTMClient.escapedParameters(parameters)
+        
+        taskForGETMethod(method, udacity: false, parameters: nil) { (result, error) in
+            
+            if let error = error {
+                completionHandlerForLocation(success: false, students: nil, error: "Failed to get Student Locations")
+            } else {
+                if let results = result.valueForKey(JSONResponseKeys.Results) as? [[String:AnyObject]] {
+                    let students = StudentInformation.studentInformationFromResults(results)
+                    completionHandlerForLocation(success: true, students: students, error: nil)
+                    
+                } else {
+                    completionHandlerForLocation(success: false, students: nil, error: "Failed to get StudentInformation")
+                }
+            }
+        }
+        
+    }
+
 }
+

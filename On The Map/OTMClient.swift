@@ -35,11 +35,11 @@ class OTMClient: NSObject {
         var urlString: String
         
         if let methodParameters = parameters {
-            urlString = method + escapedParameters(methodParameters)
+            urlString = method + OTMClient.escapedParameters(methodParameters)
         } else {
             urlString = method
         }
-        
+        print(urlString)
         
         /* 2/3. Build the URL, Configure the request */
         let url = NSURL(string: urlString)!
@@ -66,6 +66,7 @@ class OTMClient: NSObject {
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
             if let JSONError = error {
+                
                 _ = OTMClient.errorForData(data, response: response, error: JSONError)
                 completionHandlerForPOST(result: nil, error: error)
             } else {
@@ -92,12 +93,18 @@ class OTMClient: NSObject {
         var urlString: String
         
         if let mutableParameters = parameters {
-            urlString = method + escapedParameters(mutableParameters)
+            urlString = method + OTMClient.escapedParameters(mutableParameters)
         } else {
             urlString = method
         }
         
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        
+        if (!udacity) {
+            request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+
+        }
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             if let dataError = error {
@@ -146,7 +153,7 @@ class OTMClient: NSObject {
     
     // MARK: Helper for Escaping Parameters in URL
     
-    private func escapedParameters(parameters: [String:AnyObject]) -> String {
+    class func escapedParameters(parameters: [String:AnyObject]) -> String {
         
         if parameters.isEmpty {
             return ""

@@ -12,11 +12,12 @@ extension OTMClient {
     
     struct Methods {
         
-        static let ApiScheme = "https"
-        static let ApiHost = "www.udacity.com/"
-        static let ApiPath = "/api"
+//        static let ApiScheme = "https"
+//        static let ApiHost = "www.udacity.com/"
+//        static let ApiPath = "/api"
         static let AuthorizationURL: String = "https://www.udacity.com/api/session"
-        static let UserDataURL: String = "https://www.udacity.com/api/users/"
+        static let UserDataURL: String      = "https://www.udacity.com/api/users/"
+        static let StudentLocations: String = "https://api.parse.com/1/classes/StudentLocation"
     }
     
     // MARK: JSON Response Keys
@@ -24,17 +25,18 @@ extension OTMClient {
         
         // MARK: General
         static let StatusMessage = "status_message"
-        static let StatusCode = "status_code"
+        static let StatusCode = "status"
         static let Session = "session"
         static let Account = "account"
         static let Key = "key"
         static let Id = "id"
         static let User = "user"
+        static let Error = "error"
         static let Last_Name = "last_name"
         static let First_Name = "first_name"
         static let Results = "results"
-        static let ObjectID = "objectId"
-        static let UpdatedAt = "updatedAt"
+//        static let ObjectID = "objectId"
+//        static let UpdatedAt = "updatedAt"
         
         // MARK: Authorization
         static let RequestToken = "request_token"
@@ -49,7 +51,7 @@ extension OTMClient {
     }
     
     // MARK: JSON Body Keys
-    struct JSONBodyKeys {
+    struct HTTPBodyKeys {
         static let Udacity = "udacity"
         static let Username = "username"
         static let Password = "password"

@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: LoginViewController: UIViewController
 
-class LoginViewController: UIViewController {
+class OTMLoginViewController: UIViewController {
 
     // Mark: Properties
     var keyboardOnScreen = false
@@ -31,6 +31,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        usernameTextField.text = "avinash@me.com"
+        passwordTextField.text = "av1Flam3s"
         
         subscribeToNotification(UIKeyboardWillShowNotification, selector: UIConstants.Selectors.KeyboardWillShow)
         subscribeToNotification(UIKeyboardWillHideNotification, selector: UIConstants.Selectors.KeyboardWillHide)
@@ -42,10 +44,11 @@ class LoginViewController: UIViewController {
     //MARK: Login Button Press
     
     @IBAction func loginPressed(sender: AnyObject) {
-        
+                           print("success")
         OTMClient.sharedInstance().authenticateWithUdacity(usernameTextField.text, password: passwordTextField.text) { (success, errorString) in
             performUIUpdatesOnMain({ 
                 if success {
+
                     self.completeLogin()
                 } else {
                     self.displayError(errorString)
@@ -57,9 +60,12 @@ class LoginViewController: UIViewController {
     
     private func completeLogin() {
         print("Successfully Logged into Udacity")
+        let controller = storyboard!.instantiateViewControllerWithIdentifier("OTMNavigationController") as! UINavigationController
+        presentViewController(controller, animated: true, completion: nil)
     }
     
     func displayError(errorString: String?) {
+        //TODO: - Use UIAlert
         print(errorString)
     }
 }
@@ -67,7 +73,7 @@ class LoginViewController: UIViewController {
 
 // MARK: - LoginViewController: UITextFieldDelegate
 
-extension LoginViewController: UITextFieldDelegate {
+extension OTMLoginViewController: UITextFieldDelegate {
     
     // MARK: UITextFieldDelegate
     
@@ -120,7 +126,7 @@ extension LoginViewController: UITextFieldDelegate {
 
 // MARK: - LoginViewController (Configure UI)
 
-extension LoginViewController {
+extension OTMLoginViewController {
     
     private func setUIEnabled(enabled: Bool) {
         usernameTextField.enabled = enabled
@@ -143,7 +149,7 @@ extension LoginViewController {
         
         // configure background gradient
         let backgroundGradient = CAGradientLayer()
-        backgroundGradient.colors = [UIConstants.UI.LoginColorTop, UIConstants.UI.LoginColorBottom]
+        backgroundGradient.colors = [UIColor.orangeColor(), UIColor.blackColor()]
         backgroundGradient.locations = [0.0, 1.0]
         backgroundGradient.frame = view.frame
         view.layer.insertSublayer(backgroundGradient, atIndex: 0)
@@ -159,7 +165,7 @@ extension LoginViewController {
         textField.leftView = textFieldPaddingView
         textField.leftViewMode = .Always
         textField.backgroundColor = UIConstants.UI.GreyColor
-        textField.textColor = UIConstants.UI.BlueColor
+        textField.textColor = UIColor.whiteColor()
         textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
         textField.tintColor = UIConstants.UI.BlueColor
         textField.delegate = self
@@ -175,7 +181,7 @@ extension LoginViewController {
 
 // MARK: - LoginViewController (Notifications)
 
-extension LoginViewController {
+extension OTMLoginViewController {
     
     private func subscribeToNotification(notification: String, selector: Selector) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: notification, object: nil)

@@ -10,7 +10,7 @@
         <!--Login-->
         <scene sceneID="uLx-ei-Dhb">
             <objects>
-                <viewController id="lQm-Eo-yEg" userLabel="Login" customClass="LoginViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="lQm-Eo-yEg" userLabel="Login" customClass="OTMLoginViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OIm-em-y5n"/>
                         <viewControllerLayoutGuide type="bottom" id="myK-ny-HC4"/>
@@ -103,7 +103,6 @@
                         <outlet property="passwordTextField" destination="VOp-dl-mnD" id="Nto-rE-AvZ"/>
                         <outlet property="udacityLogo" destination="8gp-zC-CA1" id="WeD-OM-dNm"/>
                         <outlet property="usernameTextField" destination="5pp-ho-Se4" id="tjE-LQ-Vzv"/>
-                        <segue destination="d4u-h1-2YB" kind="show" identifier="loggedIn" id="4pF-9M-deX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nbe-C5-MGS" sceneMemberID="firstResponder"/>
@@ -115,18 +114,18 @@
             </objects>
             <point key="canvasLocation" x="-1551" y="61"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--On The Map-->
         <scene sceneID="d7W-bG-b71">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarController" id="ScA-g9-gkS" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="1gV-GP-Yju">
+                <tabBarController storyboardIdentifier="TabBarController" hidesBottomBarWhenPushed="YES" id="ScA-g9-gkS" customClass="OTMTabBarController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="On The Map" id="1gV-GP-Yju">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="P6j-c2-MSo"/>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="refresh" id="mt2-qx-9PJ"/>
                             <barButtonItem image="pin" id="Hb8-ov-uud"/>
                         </rightBarButtonItems>
                     </navigationItem>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="X40-2I-3bR">
+                    <tabBar key="tabBar" contentMode="scaleToFill" barStyle="black" id="X40-2I-3bR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -143,8 +142,8 @@
         <!--Navigation Controller-->
         <scene sceneID="Lvg-CY-2Zx">
             <objects>
-                <navigationController id="d4u-h1-2YB" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="btr-6W-h5A">
+                <navigationController storyboardIdentifier="OTMNavigationController" hidesBottomBarWhenPushed="YES" id="d4u-h1-2YB" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="btr-6W-h5A">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -159,7 +158,7 @@
         <!--Map-->
         <scene sceneID="n5c-ps-5dZ">
             <objects>
-                <viewController id="gwn-kq-2Tm" customClass="MapViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="gwn-kq-2Tm" customClass="OTMMapViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KRY-CV-O1J"/>
                         <viewControllerLayoutGuide type="bottom" id="VDL-YC-Obf"/>
@@ -168,7 +167,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DQk-yR-K5h">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DQk-yR-K5h">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </mapView>
                         </subviews>
@@ -193,18 +192,34 @@
         <!--Table-->
         <scene sceneID="osR-nr-bR2">
             <objects>
-                <tableViewController id="adl-Gf-gzp" sceneMemberID="viewController">
+                <tableViewController id="adl-Gf-gzp" customClass="OTMTableViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="D9R-re-6zE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="beP-hJ-dNX">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="studentTableViewCell" textLabel="eNN-l6-mOM" detailTextLabel="XaI-ty-qLt" style="IBUITableViewCellStyleSubtitle" id="beP-hJ-dNX">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="beP-hJ-dNX" id="gCf-Uc-PAB">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eNN-l6-mOM">
+                                            <rect key="frame" x="15" y="5" width="32" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XaI-ty-qLt">
+                                            <rect key="frame" x="15" y="25" width="31" height="14"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -214,6 +229,9 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Table" image="list" id="mBa-OO-z5y"/>
+                    <connections>
+                        <outlet property="studentInformationTableView" destination="D9R-re-6zE" id="4gJ-UY-GMY"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ojh-Dq-0de" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
