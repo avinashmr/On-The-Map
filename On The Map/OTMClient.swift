@@ -21,6 +21,9 @@ class OTMClient: NSObject {
     var currentStudent: StudentInformation? = nil
     var students: [StudentInformation]? = nil
     
+    // Store the data in a central spot
+    var studentInformation: [StudentInformation] = [StudentInformation]()
+    
     // MARK: Initializers
     
     override init() {

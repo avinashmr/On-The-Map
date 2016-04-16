@@ -15,20 +15,8 @@ class OTMTabBarController: UITabBarController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        OTMClient.sharedInstance().getStudentLocations(100) { (success, students, error) in
-            if success {
-                if let studentInformation = students {
-                    self.studentInformation = students!
 
-                }
-            } else {
-                //error
-            }
-
-            
-    }
-    func getNextResults() {
         
     }
+
 }

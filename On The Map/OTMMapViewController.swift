@@ -13,70 +13,68 @@ class OTMMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    var studentInformation: [StudentInformation] = [StudentInformation]()
+    
     //var count: Int = 0
-    var annotations = [MKPointAnnotation]()
+    //var annotations = [MKPointAnnotation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
-        //initializeMap()
-        getStudentInformation()
+        
+        updateData()
         
         
     }
+
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    private func updateData() {
         
-        OTMClient.
-    }
-    
-    private func initializeMap() {
-        let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
-        let regionRadius: CLLocationDistance = 100*10000
-        func centerMapOnLocation(location: CLLocation) {
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-                                                                      regionRadius * 2.0, regionRadius * 2.0)
-            mapView.setRegion(coordinateRegion, animated: true)
-        }
-        centerMapOnLocation(initialLocation)
-    }
-    
-    private func getStudentInformation() {
         OTMClient.sharedInstance().getStudentLocations(100) { (success, students, error) in
             if success {
-                performUIUpdatesOnMain({
-                    self.addAnnotations(students!)
-                })
+                if let studentInformation = students {
+                    self.studentInformation = students!
+                    performUIUpdatesOnMain({ 
+                        self.addAnnotations()
+                    })
+                }
+            } else {
+                //error
             }
         }
+    
     }
     
-    private func addAnnotations(let students:[StudentInformation]){
-        for s in students{
-            let location = CLLocationCoordinate2D(
-                latitude: s.latitude!,
-                longitude: s.longtitude!
-            )
+    private func addAnnotations(){
+        
+        var annotations = [MKPointAnnotation]()
+        
+        for student in studentInformation {
+            
             let annotation = MKPointAnnotation()
-            annotation.coordinate = location
-            annotation.title = s.firstName + " " + s.lastName
-            annotation.subtitle = s.mediaURL
-            self.annotations += [annotation]
-            self.mapView.addAnnotation(annotation)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: student.latitude!, longitude: student.longtitude!)
+            annotation.title = student.firstName + " " + student.lastName
+            annotation.subtitle = student.mediaURL
+            
+            annotations.append(annotation)
         }
+        
+        //performUIUpdatesOnMain {
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            self.mapView.addAnnotations(annotations)
+        //}
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        let reuseId = "pin"
+        let reuseId = "studentPin"
         
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
-            pinView!.animatesDrop = false
-            pinView!.pinTintColor = UIColor.blueColor()
+            //pinView!.pinTintColor = UIColor.blueColor()
             pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
         }
         else {
@@ -85,4 +83,16 @@ class OTMMapViewController: UIViewController, MKMapViewDelegate {
         return pinView
     }
     
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            if let mediaURL = NSURL(string: ((view.annotation?.subtitle)!)!) {
+                if UIApplication.sharedApplication().canOpenURL(mediaURL) {
+                    UIApplication.sharedApplication().openURL(mediaURL)
+                } else {
+                    //displayAlert(AppConstants.Errors.CannotOpenURL)
+                }
+            }
+        }
+    }
+
 }

@@ -17,11 +17,18 @@ class OTMTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        updateData()
+        
+    }
+    
+    private func updateData() {
+        
         OTMClient.sharedInstance().getStudentLocations(100) { (success, students, error) in
             if success {
                 if let studentInformation = students {
                     self.studentInformation = students!
-                    performUIUpdatesOnMain({ 
+                    performUIUpdatesOnMain({
                         self.studentInformationTableView.reloadData()
                     })
                 }
