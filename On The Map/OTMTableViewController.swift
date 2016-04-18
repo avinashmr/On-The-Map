@@ -10,7 +10,6 @@ import UIKit
 
 class OTMTableViewController: UITableViewController {
     
-    //var studentInformation: [StudentInformation] = [StudentInformation]()
     
     @IBOutlet weak var studentInformationTableView: UITableView!
     
@@ -18,32 +17,27 @@ class OTMTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        updateData()
+        updateTableData(nil)
+        
+        // Watch for Refresh Button Pushes on Tab Bar Controller and update data accordingly
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTableData:", name: OTMClient.Notification.refreshData, object: nil)
         
     }
     
-    private func updateData() {
-        
-        OTMClient.sharedInstance().getStudentLocations(100) { (success, error) in
+    func updateTableData(notification: NSNotification?) {
+        print(notification?.name)
+        OTMTabBarController.sharedInstance().updateStudentInformation(self, view: view) { (success, error) in
             if success {
-                
                 performUIUpdatesOnMain({
                     self.studentInformationTableView.reloadData()
                 })
-                
             } else {
-                //error
+                print("error")
             }
         }
     }
-    
-    
 
     
-
-    
-    
-
 // MARK: - TableView Functions
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -52,7 +46,7 @@ class OTMTableViewController: UITableViewController {
         let student = StudentInformation.studentInformation[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
         
-        cell.textLabel!.text = student.firstName + " " + student.lastName
+        cell.textLabel!.text = "\(student.firstName) \(student.lastName)"
         cell.detailTextLabel?.text = student.mediaURL
         cell.imageView?.image = UIImage(named: "pin")
         

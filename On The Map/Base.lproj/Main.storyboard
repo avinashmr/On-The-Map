@@ -121,7 +121,11 @@
                     <navigationItem key="navigationItem" title="On The Map" id="1gV-GP-Yju">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="P6j-c2-MSo"/>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="refresh" id="mt2-qx-9PJ"/>
+                            <barButtonItem systemItem="refresh" id="mt2-qx-9PJ">
+                                <connections>
+                                    <action selector="refreshButtonPressed:" destination="ScA-g9-gkS" id="1PI-hn-Cb3"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem image="pin" id="Hb8-ov-uud"/>
                         </rightBarButtonItems>
                     </navigationItem>
@@ -131,6 +135,9 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="addAPin" destination="Hb8-ov-uud" id="jK4-im-5Sn"/>
+                        <outlet property="logoutButton" destination="P6j-c2-MSo" id="lbY-GS-lph"/>
+                        <outlet property="refreshButton" destination="mt2-qx-9PJ" id="eMf-hz-kVd"/>
                         <segue destination="gwn-kq-2Tm" kind="relationship" relationship="viewControllers" id="ipe-xp-005"/>
                         <segue destination="adl-Gf-gzp" kind="relationship" relationship="viewControllers" id="4bB-DB-ihl"/>
                     </connections>

@@ -13,37 +13,35 @@ class OTMMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    //var studentInformation: [StudentInformation] = [StudentInformation]()
-    
-    //var count: Int = 0
-    //var annotations = [MKPointAnnotation]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
         
-        updateData()
+        // Initial Download Data
+        updateMapData(nil)
         
+        // Watch for Refresh Button Pushes on Tab Bar Controller and update data accordingly
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMapData:", name: OTMClient.Notification.refreshData, object: nil)
+
         
     }
 
     
-    private func updateData() {
-        
-        OTMClient.sharedInstance().getStudentLocations(100) { (success, error) in
+    func updateMapData(notification: NSNotification?) {
+        OTMTabBarController.sharedInstance().updateStudentInformation(self, view: view) { (success, error) in
             if success {
                 performUIUpdatesOnMain({
                     self.addAnnotations()
                 })
-                
             } else {
-                //error
+                print("error")
             }
         }
-    
     }
     
+
+
     private func addAnnotations(){
         
         var annotations = [MKPointAnnotation]()
@@ -80,17 +78,6 @@ class OTMMapViewController: UIViewController, MKMapViewDelegate {
         }
         return pinView
     }
-    
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if control == view.rightCalloutAccessoryView {
-            if let mediaURL = NSURL(string: ((view.annotation?.subtitle)!)!) {
-                if UIApplication.sharedApplication().canOpenURL(mediaURL) {
-                    UIApplication.sharedApplication().openURL(mediaURL)
-                } else {
-                    //displayAlert(AppConstants.Errors.CannotOpenURL)
-                }
-            }
-        }
-    }
+
 
 }

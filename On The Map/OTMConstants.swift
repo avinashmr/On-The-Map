@@ -64,5 +64,9 @@ extension OTMClient {
         static let latitude = "latitude"
         static let longitude = "longitude"
     }
+    
+    struct Notification {
+        static let refreshData = "refreshData"
+    }
 
 }
