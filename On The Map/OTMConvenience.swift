@@ -19,7 +19,6 @@ extension OTMClient {
         } else {
             if Reachability.isConnectedToNetwork(){
                 // Everything is good so far, continue.
-                print("Internet connection OK")
                 
                 getSessionID(userName, password: password, completionHandlerForSession: { (success, errorString) in
                     if (success) {
@@ -68,7 +67,6 @@ extension OTMClient {
                     self.sessionID = id
                     if let key = result.valueForKey(JSONResponseKeys.Account)?.valueForKey(JSONResponseKeys.Key) as? String {
                         self.uniqueKey = key
-                        print(self.uniqueKey)
                     }
                     completionHandlerForSession(success: true, errorString: nil)
                 }
@@ -119,7 +117,7 @@ extension OTMClient {
     // API Usage: https://docs.google.com/document/d/1E7JIiRxFR3nBiUUzkKal44l9JkSyqNWvQrNH4pDrOFU/pub?embedded=true
     
     
-    func getStudentLocations(limit: Int?, completionHandlerForLocation: (success: Bool, students: [StudentInformation]?, error: String?) -> Void) {
+    func getStudentLocations(limit: Int?, completionHandlerForLocation: (success: Bool, error: String?) -> Void) {
         
         let parameters: [String:AnyObject] = [
             "limit": limit!,
@@ -132,14 +130,14 @@ extension OTMClient {
         taskForGETMethod(method, udacity: false, parameters: nil) { (result, error) in
             
             if let error = error {
-                completionHandlerForLocation(success: false, students: nil, error: "Failed to get Student Locations")
+                completionHandlerForLocation(success: false, error: "Failed to get Student Locations")
             } else {
                 if let results = result.valueForKey(JSONResponseKeys.Results) as? [[String:AnyObject]] {
-                    let students = StudentInformation.studentInformationFromResults(results)
-                    completionHandlerForLocation(success: true, students: students, error: nil)
+                    StudentInformation.studentInformation = StudentInformation.studentInformationFromResults(results)
+                    completionHandlerForLocation(success: true, error: nil)
                     
                 } else {
-                    completionHandlerForLocation(success: false, students: nil, error: "Failed to get StudentInformation")
+                    completionHandlerForLocation(success: false, error: "Failed to get StudentInformation")
                 }
             }
         }

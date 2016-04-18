@@ -42,7 +42,6 @@ class OTMClient: NSObject {
         } else {
             urlString = method
         }
-        print(urlString)
         
         /* 2/3. Build the URL, Configure the request */
         let url = NSURL(string: urlString)!

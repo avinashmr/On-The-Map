@@ -10,7 +10,7 @@ import UIKit
 
 class OTMTableViewController: UITableViewController {
     
-    var studentInformation: [StudentInformation] = [StudentInformation]()
+    //var studentInformation: [StudentInformation] = [StudentInformation]()
     
     @IBOutlet weak var studentInformationTableView: UITableView!
     
@@ -24,14 +24,13 @@ class OTMTableViewController: UITableViewController {
     
     private func updateData() {
         
-        OTMClient.sharedInstance().getStudentLocations(100) { (success, students, error) in
+        OTMClient.sharedInstance().getStudentLocations(100) { (success, error) in
             if success {
-                if let studentInformation = students {
-                    self.studentInformation = students!
-                    performUIUpdatesOnMain({
-                        self.studentInformationTableView.reloadData()
-                    })
-                }
+                
+                performUIUpdatesOnMain({
+                    self.studentInformationTableView.reloadData()
+                })
+                
             } else {
                 //error
             }
@@ -50,7 +49,7 @@ class OTMTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cellReuseIdentifier = "studentTableViewCell"
-        let student = studentInformation[indexPath.row]
+        let student = StudentInformation.studentInformation[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
         
         cell.textLabel!.text = student.firstName + " " + student.lastName
@@ -61,14 +60,15 @@ class OTMTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return studentInformation.count
+        return StudentInformation.studentInformation.count
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let student = studentInformation[indexPath.row]
+        let student = StudentInformation.studentInformation[indexPath.row]
         
         if let url = NSURL(string: student.mediaURL!) {
+            print(url)
             if UIApplication.sharedApplication().canOpenURL(url) {
                 UIApplication.sharedApplication().openURL(url)
             } else {

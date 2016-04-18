@@ -13,7 +13,7 @@ class OTMMapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    var studentInformation: [StudentInformation] = [StudentInformation]()
+    //var studentInformation: [StudentInformation] = [StudentInformation]()
     
     //var count: Int = 0
     //var annotations = [MKPointAnnotation]()
@@ -31,14 +31,12 @@ class OTMMapViewController: UIViewController, MKMapViewDelegate {
     
     private func updateData() {
         
-        OTMClient.sharedInstance().getStudentLocations(100) { (success, students, error) in
+        OTMClient.sharedInstance().getStudentLocations(100) { (success, error) in
             if success {
-                if let studentInformation = students {
-                    self.studentInformation = students!
-                    performUIUpdatesOnMain({ 
-                        self.addAnnotations()
-                    })
-                }
+                performUIUpdatesOnMain({
+                    self.addAnnotations()
+                })
+                
             } else {
                 //error
             }
@@ -50,7 +48,7 @@ class OTMMapViewController: UIViewController, MKMapViewDelegate {
         
         var annotations = [MKPointAnnotation]()
         
-        for student in studentInformation {
+        for student in StudentInformation.studentInformation {
             
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: student.latitude!, longitude: student.longtitude!)

@@ -10,8 +10,6 @@ import UIKit
 
 class OTMTabBarController: UITabBarController {
     
-
-    var studentInformation: [StudentInformation] = [StudentInformation]()
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

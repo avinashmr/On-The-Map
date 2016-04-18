@@ -26,6 +26,8 @@ struct StudentInformation {
         
     }
     
+    static var studentInformation = [StudentInformation]()
+    
     
     // Mark: - Initializers
     

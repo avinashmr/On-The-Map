@@ -44,7 +44,7 @@ class OTMLoginViewController: UIViewController {
     //MARK: Login Button Press
     
     @IBAction func loginPressed(sender: AnyObject) {
-                           print("success")
+
         OTMClient.sharedInstance().authenticateWithUdacity(usernameTextField.text, password: passwordTextField.text) { (success, errorString) in
             performUIUpdatesOnMain({ 
                 if success {
@@ -59,7 +59,7 @@ class OTMLoginViewController: UIViewController {
     }
     
     private func completeLogin() {
-        print("Successfully Logged into Udacity")
+
         let controller = storyboard!.instantiateViewControllerWithIdentifier("OTMNavigationController") as! UINavigationController
         presentViewController(controller, animated: true, completion: nil)
     }
