@@ -11,8 +11,6 @@ import UIKit
 extension OTMClient {
     
     func authenticateWithUdacity(userName: String?, password: String?, completionHandlerForAuth: (success: Bool, errorString: String?) -> Void) {
-        
-        
         if (userName!.isEmpty || password!.isEmpty) {
             // Text fields are empty and fail.
             completionHandlerForAuth(success: false, errorString: "Username or Password is empty.")
@@ -44,6 +42,26 @@ extension OTMClient {
             }
             
         }
+    }
+    
+    // Check if the URL is a correct URL, if not, add a "http://".
+    func formatURL(urlString: String, completionHandlerForURL: (success: Bool, newURL: String?, error: String?) -> Void) {
+        if UIApplication.sharedApplication().canOpenURL(NSURL(string: urlString)!) {
+            completionHandlerForURL(success: true, newURL: urlString, error: nil)
+        } else {
+            if !(urlString.lowercaseString.hasPrefix("http://")) {
+                let newURL = "http://" + urlString
+                print(newURL)
+                if UIApplication.sharedApplication().canOpenURL(NSURL(string: newURL)!) {
+                    completionHandlerForURL(success: true, newURL: newURL, error: nil)
+                } else {
+                    completionHandlerForURL(success: false, newURL: nil, error: "URL is incorrect")
+                }
+            } else {
+                completionHandlerForURL(success: false, newURL: nil, error: "URL is incorrect")
+            }
+        }
+        
     }
     
     // MARK: - UDACITY
@@ -111,6 +129,8 @@ extension OTMClient {
             }
         }
     }
+    
+    
 
 
     // MARK: - PARSE
@@ -125,7 +145,7 @@ extension OTMClient {
             "order": "-updatedAt"
         ]
         
-        let method = Methods.StudentLocations + OTMClient.escapedParameters(parameters)
+        let method = Methods.Parse.StudentLocations + OTMClient.escapedParameters(parameters)
         
         taskForGETMethod(method, udacity: false, parameters: nil) { (result, error) in
             
@@ -141,6 +161,41 @@ extension OTMClient {
                 }
             }
         }
+        
+    }
+    
+    func postAStudentLocation(updatedStudent: StudentInformation?, completionHandlerForStudentLocation: (success: Bool, error: String?) -> Void) {
+        
+        let method = Methods.Parse.StudentLocations
+        let currentStudent = OTMClient.sharedInstance().currentStudent
+        
+        let jsonBody: [String:AnyObject] = [
+            OTMClient.JSONBodyKeys.UniqueKey: currentStudent!.uniqueKey,
+            OTMClient.JSONBodyKeys.FirstName: "Minh",
+            OTMClient.JSONBodyKeys.LastName: "Benham",
+
+            //OTMClient.JSONBodyKeys.FirstName: currentStudent!.firstName,
+            //OTMClient.JSONBodyKeys.LastName: currentStudent!.lastName,
+            OTMClient.JSONBodyKeys.MapString: updatedStudent!.mapString!,
+            OTMClient.JSONBodyKeys.MediaURL: updatedStudent!.mediaURL!,
+            OTMClient.JSONBodyKeys.Latitude: updatedStudent!.latitude!,
+            OTMClient.JSONBodyKeys.Longitude: updatedStudent!.longtitude!
+        ]
+        
+        taskForPOSTMethod(method, udacity: false, parameters: nil, jsonBody: jsonBody) { (result, error) in
+            if let error = error {
+                completionHandlerForStudentLocation(success: false, error: "Error Posting Data")
+            } else {
+                if let objectID = result.valueForKey("objectId") as? String {
+                    print(objectID)
+                    completionHandlerForStudentLocation(success: true, error: nil)
+//                    print(NSString(data: result, encoding: NSUTF8StringEncoding))
+                } else {
+                    completionHandlerForStudentLocation(success: false, error: "Could not post location")
+                }
+            }
+        }
+//        completionHandlerForStudentLocation(success: true, error: nil)
         
     }
 

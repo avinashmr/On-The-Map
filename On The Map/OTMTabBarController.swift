@@ -15,8 +15,8 @@ class OTMTabBarController: UITabBarController {
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
     @IBAction func addAPin(sender: AnyObject) {
-        let controller = storyboard!.instantiateViewControllerWithIdentifier("PostingViewController") as! UIViewController
-        presentViewController(controller, animated: true, completion: nil)
+        let viewController = storyboard!.instantiateViewControllerWithIdentifier("PostingViewController") 
+        presentViewController(viewController, animated: true, completion: nil)
     }
     
     

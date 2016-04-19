@@ -78,6 +78,20 @@ class OTMMapViewController: UIViewController, MKMapViewDelegate {
         }
         return pinView
     }
+    
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            
+            OTMClient.sharedInstance().formatURL(((view.annotation?.subtitle)!)!, completionHandlerForURL: { (success, newURL, error) in
+                if success {
+                    UIApplication.sharedApplication().openURL(NSURL(string: newURL!)!)
+                } else {
+                    print(error)
+                }
+                
+            })
+        }
+    }
 
 
 }

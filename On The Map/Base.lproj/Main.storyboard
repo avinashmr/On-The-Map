@@ -206,9 +206,12 @@
                                     <action selector="findOnTheMap:" destination="2hl-2H-LVv" eventType="touchUpInside" id="Pam-iV-r12"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h9g-6b-5jR">
-                                <rect key="frame" x="30" y="97" width="89" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h9g-6b-5jR">
+                                <rect key="frame" x="30" y="97" width="82" height="30"/>
                                 <state key="normal" title="Submit URL"/>
+                                <connections>
+                                    <action selector="submitStudentInformation:" destination="2hl-2H-LVv" eventType="touchUpInside" id="uwx-1W-s2I"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Input a URL" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jLx-7i-wp2">
                                 <rect key="frame" x="30" y="72" width="530" height="17"/>

@@ -12,12 +12,13 @@ extension OTMClient {
     
     struct Methods {
         
-//        static let ApiScheme = "https"
-//        static let ApiHost = "www.udacity.com/"
-//        static let ApiPath = "/api"
         static let AuthorizationURL: String = "https://www.udacity.com/api/session"
         static let UserDataURL: String      = "https://www.udacity.com/api/users/"
-        static let StudentLocations: String = "https://api.parse.com/1/classes/StudentLocation"
+        
+        
+        struct Parse {
+            static let StudentLocations: String = "https://api.parse.com/1/classes/StudentLocation"
+        }
     }
     
     // MARK: JSON Response Keys
@@ -48,6 +49,16 @@ extension OTMClient {
         
         static let AccessToken = "access_token"
         static let FacebookMobile = "facebook_mobile"
+    }
+    
+    struct JSONBodyKeys {
+        static let UniqueKey = "uniqueKey"
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let MapString = "mapString"
+        static let MediaURL = "mediaURL"
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
     }
     
     // MARK: JSON Body Keys

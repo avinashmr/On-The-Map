@@ -54,7 +54,8 @@ class OTMClient: NSObject {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             
         } else {
-            // TODO: Parse Request
+            request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         }
         
         do {
@@ -70,11 +71,12 @@ class OTMClient: NSObject {
             if let JSONError = error {
                 
                 _ = OTMClient.errorForData(data, response: response, error: JSONError)
+                print(error)
                 completionHandlerForPOST(result: nil, error: error)
             } else {
                 var newData = data
-                if(udacity){// If it isn't for parse, it is for the Udacity API which it requires to ommit the first 5 characters for security reasons
-                    newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+                if(udacity){
+                    newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) 
                 }
                 /* 5/6. Parse the data and use the data (happens in completion handler) */
                 self.convertDataWithCompletionHandler(newData!, completionHandlerForConvertData: completionHandlerForPOST)
@@ -114,7 +116,7 @@ class OTMClient: NSObject {
                 completionHandlerForGET(result: nil, error: dataError)
             } else {
                 var newData = data
-                if(udacity){// If it isn't for parse, it is for the Udacity API which it requires to ommit the first 5 characters for security reasons
+                if(udacity){
                     newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
                 }
                 self.convertDataWithCompletionHandler(newData!, completionHandlerForConvertData: completionHandlerForGET)

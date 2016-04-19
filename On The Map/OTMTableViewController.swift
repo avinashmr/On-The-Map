@@ -61,15 +61,15 @@ class OTMTableViewController: UITableViewController {
         
         let student = StudentInformation.studentInformation[indexPath.row]
         
-        if let url = NSURL(string: student.mediaURL!) {
-            print(url)
-            if UIApplication.sharedApplication().canOpenURL(url) {
-                UIApplication.sharedApplication().openURL(url)
+        OTMClient.sharedInstance().formatURL(student.mediaURL!, completionHandlerForURL: { (success, newURL, error) in
+            if success {
+                UIApplication.sharedApplication().openURL(NSURL(string: newURL!)!)
             } else {
-                print("error")
+                print(error)
             }
-        }
+        })
     }
 
-    
+
+
 }
