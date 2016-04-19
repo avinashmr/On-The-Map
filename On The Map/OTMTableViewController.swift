@@ -25,7 +25,7 @@ class OTMTableViewController: UITableViewController {
     }
     
     func updateTableData(notification: NSNotification?) {
-        print(notification?.name)
+
         OTMTabBarController.sharedInstance().updateStudentInformation(self, view: view) { (success, error) in
             if success {
                 performUIUpdatesOnMain({

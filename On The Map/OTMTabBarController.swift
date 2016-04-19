@@ -14,6 +14,12 @@ class OTMTabBarController: UITabBarController {
     @IBOutlet weak var addAPin: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
+    @IBAction func addAPin(sender: AnyObject) {
+        let controller = storyboard!.instantiateViewControllerWithIdentifier("PostingViewController") as! UIViewController
+        presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    
     @IBAction func refreshButtonPressed(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName(OTMClient.Notification.refreshData, object: nil)
     }
