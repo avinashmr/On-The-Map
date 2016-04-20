@@ -71,7 +71,6 @@ class OTMClient: NSObject {
             if let JSONError = error {
                 
                 _ = OTMClient.errorForData(data, response: response, error: JSONError)
-                print(error)
                 completionHandlerForPOST(result: nil, error: error)
             } else {
                 var newData = data
@@ -121,6 +120,39 @@ class OTMClient: NSObject {
                 }
                 self.convertDataWithCompletionHandler(newData!, completionHandlerForConvertData: completionHandlerForGET)
             }
+        }
+        task.resume()
+        
+        return task
+    }
+    
+    // MARK: - DELETE
+    
+    func taskForDELETEMethod(method: String, completionHandlerForDelete: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        let urlString = method
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        request.HTTPMethod = "DELETE"
+        var xsrfCookie: NSHTTPCookie? = nil
+        
+        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        for cookie in sharedCookieStorage.cookies! {
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+        }
+        
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil { // Handle error…
+                completionHandlerForDelete(result: false, error: NSError(domain: "taskForDeleteMethod Error", code: 1, userInfo: nil))
+            }
+            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForDelete)
         }
         task.resume()
         

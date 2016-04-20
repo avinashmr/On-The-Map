@@ -78,8 +78,6 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
                 self.mapView.showAnnotations([placemark], animated: true)
             }
         }
-
-        
     }
     
     

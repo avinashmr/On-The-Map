@@ -125,6 +125,24 @@ extension OTMClient {
         }
     }
     
+    // DELETEing a Session
+    
+    func logoutOfUdacity(completionHandlerForUdacityLogout: (success: Bool, error: String?) -> Void) {
+        
+        let method = Methods.AuthorizationURL
+        
+        taskForDELETEMethod(method) { (result, error) in
+            if let error = error {
+                completionHandlerForUdacityLogout(success: false, error: "Error Logging Out.")
+            } else {
+                if let logoutID = result.valueForKey("session")?.valueForKey("id") as? String {
+                    print(logoutID)
+                    completionHandlerForUdacityLogout(success: true, error: nil)
+                }
+                completionHandlerForUdacityLogout(success: false, error: "Error Logging Out.")
+            }
+        }
+    }
     
 
 

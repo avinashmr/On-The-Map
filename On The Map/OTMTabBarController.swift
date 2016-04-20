@@ -40,6 +40,17 @@ class OTMTabBarController: UITabBarController {
         }
     }
     
+    @IBAction func logout(sender: AnyObject) {
+        OTMClient.sharedInstance().logoutOfUdacity { (success, error) in
+            if success {
+                if let presentingViewController = self.presentingViewController {
+                    presentingViewController.dismissViewControllerAnimated(true, completion: nil)
+                } else {
+                    print("logout error")
+                }
+            }
+        }
+    }
     
     // MARK: Shared Instance
     // This is to share the functions above with MapView and TableView

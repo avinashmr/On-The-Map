@@ -119,7 +119,11 @@
             <objects>
                 <tabBarController storyboardIdentifier="TabBarController" hidesBottomBarWhenPushed="YES" id="ScA-g9-gkS" customClass="OTMTabBarController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="On The Map" id="1gV-GP-Yju">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="P6j-c2-MSo"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="P6j-c2-MSo">
+                            <connections>
+                                <action selector="logout:" destination="ScA-g9-gkS" id="6Vo-WG-YMF"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="refresh" id="mt2-qx-9PJ">
                                 <connections>
