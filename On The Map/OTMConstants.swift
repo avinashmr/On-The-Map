@@ -21,7 +21,7 @@ extension OTMClient {
 
         struct Udacity {
             static let AuthorizationURL: String = "https://www.udacity.com/api/session"
-            static let UserDataURL: String      = "https://www.udacity.com/api/users"
+            static let UserDataURL: String      = "https://www.udacity.com/api/users/"
         }
 
         struct Parse {
