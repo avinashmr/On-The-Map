@@ -10,39 +10,40 @@ import UIKit
 
 class OTMTableViewController: UITableViewController {
     
-    //var studentInformation: [StudentInformation] = [StudentInformation]()
-    
+    //IBOutlets
     @IBOutlet weak var studentInformationTableView: UITableView!
     
-    
+    // View Life Cycle
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        updateData()
+        updateTableData(nil)
+        
+        // Watch for Refresh Button Pushes on Tab Bar Controller and update data accordingly
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTableData:", name: OTMClient.Notification.refreshData, object: nil)
         
     }
-    
-    private func updateData() {
-        
-        OTMClient.sharedInstance().getStudentLocations(100) { (success, error) in
+
+    // Functions
+    func updateTableData(notification: NSNotification?) {
+
+        OTMTabBarController.sharedInstance().updateStudentInformation(self, view: view) { (success, error) in
             if success {
-                
                 performUIUpdatesOnMain({
                     self.studentInformationTableView.reloadData()
                 })
-                
             } else {
-                //error
+                self.displayError(error)
             }
         }
     }
-    
-    
 
-    
+    private func displayError(errorString: String?) {
+        let alertView = UIAlertController(title: "Login Error", message: errorString, preferredStyle: .Alert)
+        alertView.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
+        self.presentViewController(alertView, animated: true, completion: nil)
+    }
 
-    
-    
 
 // MARK: - TableView Functions
 
@@ -52,7 +53,7 @@ class OTMTableViewController: UITableViewController {
         let student = StudentInformation.studentInformation[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
         
-        cell.textLabel!.text = student.firstName + " " + student.lastName
+        cell.textLabel!.text = "\(student.firstName) \(student.lastName)"
         cell.detailTextLabel?.text = student.mediaURL
         cell.imageView?.image = UIImage(named: "pin")
         
@@ -67,15 +68,15 @@ class OTMTableViewController: UITableViewController {
         
         let student = StudentInformation.studentInformation[indexPath.row]
         
-        if let url = NSURL(string: student.mediaURL!) {
-            print(url)
-            if UIApplication.sharedApplication().canOpenURL(url) {
-                UIApplication.sharedApplication().openURL(url)
+        OTMClient.sharedInstance().formatURL(student.mediaURL!, completionHandlerForURL: { (success, newURL, error) in
+            if success {
+                UIApplication.sharedApplication().openURL(NSURL(string: newURL!)!)
             } else {
-                print("error")
+                self.displayError(error)
             }
-        }
+        })
     }
 
-    
+
+
 }

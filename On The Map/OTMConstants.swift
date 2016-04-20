@@ -9,17 +9,32 @@
 import Foundation
 
 extension OTMClient {
-    
-    struct Methods {
-        
-//        static let ApiScheme = "https"
-//        static let ApiHost = "www.udacity.com/"
-//        static let ApiPath = "/api"
-        static let AuthorizationURL: String = "https://www.udacity.com/api/session"
-        static let UserDataURL: String      = "https://www.udacity.com/api/users/"
-        static let StudentLocations: String = "https://api.parse.com/1/classes/StudentLocation"
+
+
+    struct Constants {
+        static let downloadLimit = 100
+        static let skip = 0
+        static let downloadOrder: String = "-updatedAt"
     }
-    
+
+    struct Methods {
+
+        struct Udacity {
+            static let AuthorizationURL: String = "https://www.udacity.com/api/session"
+            static let UserDataURL: String      = "https://www.udacity.com/api/users"
+        }
+
+        struct Parse {
+            static let StudentLocations: String = "https://api.parse.com/1/classes/StudentLocation"
+        }
+    }
+
+    struct ParameterKeys {
+        static let Limit = "limit"
+        static let Skip = "skip"
+        static let Order = "order"
+    }
+
     // MARK: JSON Response Keys
     struct JSONResponseKeys {
         
@@ -41,13 +56,18 @@ extension OTMClient {
         // MARK: Authorization
         static let RequestToken = "request_token"
         static let SessionID = "session_id"
-        
-        // MARK: Account
-        static let UserID = "id"
-        
-        
-        static let AccessToken = "access_token"
-        static let FacebookMobile = "facebook_mobile"
+
+
+    }
+    
+    struct JSONBodyKeys {
+        static let UniqueKey = "uniqueKey"
+        static let FirstName = "firstName"
+        static let LastName = "lastName"
+        static let MapString = "mapString"
+        static let MediaURL = "mediaURL"
+        static let Latitude = "latitude"
+        static let Longitude = "longitude"
     }
     
     // MARK: JSON Body Keys
@@ -63,6 +83,10 @@ extension OTMClient {
         static let mediaURL = "mediaURL"
         static let latitude = "latitude"
         static let longitude = "longitude"
+    }
+    
+    struct Notification {
+        static let refreshData = "refreshData"
     }
 
 }

@@ -23,6 +23,7 @@
 		E184A4601CBD5C6900DFCB03 /* OTMConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A45F1CBD5C6900DFCB03 /* OTMConvenience.swift */; };
 		E184A4621CBEEC0A00DFCB03 /* StudentInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4611CBEEC0A00DFCB03 /* StudentInformation.swift */; };
 		E184A4641CC161D100DFCB03 /* OTMTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E184A4631CC161D100DFCB03 /* OTMTableViewController.swift */; };
+		E186FAB91CC590E2008ECD62 /* OTMPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E186FAB81CC590E2008ECD62 /* OTMPostingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		E184A45F1CBD5C6900DFCB03 /* OTMConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMConvenience.swift; sourceTree = "<group>"; };
 		E184A4611CBEEC0A00DFCB03 /* StudentInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformation.swift; sourceTree = "<group>"; };
 		E184A4631CC161D100DFCB03 /* OTMTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMTableViewController.swift; sourceTree = "<group>"; };
+		E186FAB81CC590E2008ECD62 /* OTMPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMPostingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +112,9 @@
 			isa = PBXGroup;
 			children = (
 				E184A42E1CB5B8C300DFCB03 /* OTMLoginViewController.swift */,
-				E184A4531CB724E500DFCB03 /* OTMTabBarController.swift */,
 				E184A4511CB7184500DFCB03 /* OTMMapViewController.swift */,
+				E186FAB81CC590E2008ECD62 /* OTMPostingViewController.swift */,
+				E184A4531CB724E500DFCB03 /* OTMTabBarController.swift */,
 				E184A4631CC161D100DFCB03 /* OTMTableViewController.swift */,
 			);
 			name = Controller;
@@ -230,6 +233,7 @@
 				E184A4541CB724E500DFCB03 /* OTMTabBarController.swift in Sources */,
 				E184A4441CB6161C00DFCB03 /* BorderedButton.swift in Sources */,
 				E184A45C1CBD5C5300DFCB03 /* OTMClient.swift in Sources */,
+				E186FAB91CC590E2008ECD62 /* OTMPostingViewController.swift in Sources */,
 				E184A4641CC161D100DFCB03 /* OTMTableViewController.swift in Sources */,
 				E184A45E1CBD5C5E00DFCB03 /* OTMConstants.swift in Sources */,
 				E184A4621CBEEC0A00DFCB03 /* StudentInformation.swift in Sources */,

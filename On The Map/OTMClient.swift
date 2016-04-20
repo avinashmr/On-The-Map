@@ -54,7 +54,8 @@ class OTMClient: NSObject {
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             
         } else {
-            // TODO: Parse Request
+            request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+            request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         }
         
         do {
@@ -73,8 +74,8 @@ class OTMClient: NSObject {
                 completionHandlerForPOST(result: nil, error: error)
             } else {
                 var newData = data
-                if(udacity){// If it isn't for parse, it is for the Udacity API which it requires to ommit the first 5 characters for security reasons
-                    newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+                if(udacity){
+                    newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) 
                 }
                 /* 5/6. Parse the data and use the data (happens in completion handler) */
                 self.convertDataWithCompletionHandler(newData!, completionHandlerForConvertData: completionHandlerForPOST)
@@ -114,11 +115,43 @@ class OTMClient: NSObject {
                 completionHandlerForGET(result: nil, error: dataError)
             } else {
                 var newData = data
-                if(udacity){// If it isn't for parse, it is for the Udacity API which it requires to ommit the first 5 characters for security reasons
+                if(udacity){
                     newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
                 }
                 self.convertDataWithCompletionHandler(newData!, completionHandlerForConvertData: completionHandlerForGET)
             }
+        }
+        task.resume()
+        
+        return task
+    }
+    
+    // MARK: - DELETE
+    
+    func taskForDELETEMethod(method: String, completionHandlerForDelete: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        let urlString = method
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        request.HTTPMethod = "DELETE"
+        var xsrfCookie: NSHTTPCookie? = nil
+        
+        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        for cookie in sharedCookieStorage.cookies! {
+            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+        }
+        
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        let session = NSURLSession.sharedSession()
+        
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil { // Handle error…
+                completionHandlerForDelete(result: false, error: NSError(domain: "taskForDeleteMethod Error", code: 1, userInfo: nil))
+            }
+            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
+            self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForDelete)
         }
         task.resume()
         
