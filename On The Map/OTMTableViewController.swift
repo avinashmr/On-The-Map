@@ -10,10 +10,10 @@ import UIKit
 
 class OTMTableViewController: UITableViewController {
     
-    
+    //IBOutlets
     @IBOutlet weak var studentInformationTableView: UITableView!
     
-    
+    // View Life Cycle
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -23,7 +23,8 @@ class OTMTableViewController: UITableViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTableData:", name: OTMClient.Notification.refreshData, object: nil)
         
     }
-    
+
+    // Functions
     func updateTableData(notification: NSNotification?) {
 
         OTMTabBarController.sharedInstance().updateStudentInformation(self, view: view) { (success, error) in
@@ -32,12 +33,18 @@ class OTMTableViewController: UITableViewController {
                     self.studentInformationTableView.reloadData()
                 })
             } else {
-                print("error")
+                self.displayError(error)
             }
         }
     }
 
-    
+    private func displayError(errorString: String?) {
+        let alertView = UIAlertController(title: "Login Error", message: errorString, preferredStyle: .Alert)
+        alertView.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
+        self.presentViewController(alertView, animated: true, completion: nil)
+    }
+
+
 // MARK: - TableView Functions
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -65,7 +72,7 @@ class OTMTableViewController: UITableViewController {
             if success {
                 UIApplication.sharedApplication().openURL(NSURL(string: newURL!)!)
             } else {
-                print(error)
+                self.displayError(error)
             }
         })
     }

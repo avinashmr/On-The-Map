@@ -151,7 +151,6 @@ class OTMClient: NSObject {
                 completionHandlerForDelete(result: false, error: NSError(domain: "taskForDeleteMethod Error", code: 1, userInfo: nil))
             }
             let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
             self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForDelete)
         }
         task.resume()

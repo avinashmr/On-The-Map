@@ -14,14 +14,12 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
     //MARK: Properties
     var studyLocation: CLPlacemark?
     var studyURL: String?
-    
+    var keyboardOnScreen = false
+
     // States of UI
     private enum UIState {
-        case initial
-        case mapDone
+        case initial, done, alert
     }
-    
-    
     
     // MARK: IBOutlets
     @IBOutlet weak var questionLabel: UILabel!
@@ -30,70 +28,70 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var findOnTheMapButton: UIButton!
     @IBOutlet weak var submitURLButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        
-    }
-    
-    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
+    //MARK: View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
        
         mapView.delegate = self
 
-        
         configureUI(.initial)
         
     }
-    
+
+    // View Options
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
-    
-    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
-        return UIStatusBarAnimation.Slide
+
+    @IBAction func cancel(sender: AnyObject) {
+        dismissViewController()
     }
-    
-    
+
+    // MARK: - IBActions
     @IBAction func findOnTheMap(sender: AnyObject) {
         
         if locationInputTextField.text!.isEmpty {
-            print("Location empty")
+            displayError("Please input a location.")
             return
-        }
-        
-        
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(locationInputTextField.text!) { (results, error) in
-            if (error != nil) {
-                print("could not geocode")
-            } else {
-                self.studyLocation = results?[0]
-                
-                self.configureUI(.mapDone)
-                
-                let placemark = MKPlacemark(placemark: self.studyLocation!)
-                self.mapView.showAnnotations([placemark], animated: true)
-            }
+        } else {
+            performUIUpdatesOnMain({
+                self.activityIndicator.hidden = false
+                self.activityIndicator.startAnimating()
+
+                let geocoder = CLGeocoder()
+                geocoder.geocodeAddressString(self.locationInputTextField.text!) { (results, error) in
+                    if (error != nil) {
+                        self.displayError("Could not find the location, please try again.")
+                        return
+                    } else {
+                        self.studyLocation = results?[0]
+                        self.configureUI(.done)
+
+                        let placemark = MKPlacemark(placemark: self.studyLocation!)
+                        self.mapView.showAnnotations([placemark], animated: true)
+                    }
+                }
+            })
+            
         }
     }
-    
-    
+
+
     @IBAction func submitStudentInformation(sender: AnyObject) {
-        
+
         var student = OTMClient.sharedInstance().currentStudent
         
         if (urlInputTextField.text!.isEmpty) {
-            print("URL is empty, please fix")
+            displayError("URL is empty, try again.")
             return
         } else {
             OTMClient.sharedInstance().formatURL(urlInputTextField.text!, completionHandlerForURL: { (success, newURL, error) in
                 if success {
                     student?.mediaURL = newURL
                 } else {
-                    print(error)
+                    self.displayError(error)
                     return
                 }
             })
@@ -107,46 +105,37 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
             student?.longtitude = location.coordinate.longitude
         }
         else {
-            print("location error")
+            displayError("Invalid Location.")
             return
         }
         
         OTMClient.sharedInstance().postAStudentLocation(student) { (success, error) in
             if success {
-                print("successfully posted a location")
+                // print("successfully posted a location")
             } else {
-                print(error)
+                self.displayError(error)
             }
         
         }
         
         NSNotificationCenter.defaultCenter().postNotificationName(OTMClient.Notification.refreshData, object: nil)
-        self.dismissVC()
+        self.dismissViewController()
     }
-    
-    func dismissVC() {
-        if let presentingViewController = presentingViewController {
-            presentingViewController.dismissViewControllerAnimated(true, completion: nil)
-        }
-    }
-    
-    
-    @IBAction func cancel(sender: AnyObject) {
-        dismissViewController()
-    }
-    
+
+
     private func dismissViewController() {
         if let presentingViewController = presentingViewController {
             presentingViewController.dismissViewControllerAnimated(true, completion: nil)
         }
     }
-    
-    private func resignIfFirstResponder(textField: UITextField) {
-        if textField.isFirstResponder() {
-            textField.resignFirstResponder()
-        }
+
+    private func displayError(errorString: String?) {
+        configureUI(.alert)
+        let alertView = UIAlertController(title: "Posting Error", message: errorString, preferredStyle: .Alert)
+        alertView.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
+        self.presentViewController(alertView, animated: true, completion: nil)
     }
-    
+
     private func configureUI(state: UIState) {
     
         switch (state) {
@@ -159,7 +148,11 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
             findOnTheMapButton.hidden = false
             urlInputTextField.hidden = true
             submitURLButton.hidden = true
-        case .mapDone:
+            urlInputTextField.delegate = self
+            locationInputTextField.delegate = self
+            activityIndicator.hidden = true
+            activityIndicator.stopAnimating()
+        case .done:
             self.questionLabel.text = "Where online are you studying?"
             self.locationInputTextField.hidden = true
             self.findOnTheMapButton.hidden = true
@@ -172,21 +165,47 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
             self.mapView.zoomEnabled = false
             self.mapView.scrollEnabled = false
             self.mapView.userInteractionEnabled = false
+            activityIndicator.hidden = true
+            activityIndicator.stopAnimating()
+        case .alert:
+            activityIndicator.hidden = true
+            activityIndicator.stopAnimating()
         }
     }
     
 }
 
-// MARK: - PostingViewController: UITextFieldDelegate
+// MARK: - LoginViewController: UITextFieldDelegate
 
 extension OTMPostingViewController: UITextFieldDelegate {
-    
+
     // MARK: UITextFieldDelegate
-    
+
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
+
+    // MARK: Show/Hide Keyboard
+
+    func keyboardDidShow(notification: NSNotification) {
+        keyboardOnScreen = true
+    }
+
+    func keyboardDidHide(notification: NSNotification) {
+        keyboardOnScreen = false
+    }
+
+    private func resignIfFirstResponder(textField: UITextField) {
+        if textField.isFirstResponder() {
+            textField.resignFirstResponder()
+        }
+    }
+
+    @IBAction func userDidTapView(sender: AnyObject) {
+        resignIfFirstResponder(urlInputTextField)
+        resignIfFirstResponder(locationInputTextField)
+    }
 }
+
 

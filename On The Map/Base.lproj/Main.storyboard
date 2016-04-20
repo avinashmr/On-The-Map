@@ -81,7 +81,7 @@
                                 <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                         </subviews>
-                        <color key="backgroundColor" red="0.35070900710000003" green="0.79530321839999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="0.53045744289999996" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="bottomMargin" secondItem="bIh-hh-tWw" secondAttribute="bottom" constant="18" id="5rX-YW-l1U"/>
@@ -185,6 +185,10 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="w1t-fr-5RN">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="8xU-of-p9y">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                             <button opaque="NO" alpha="0.59999999999999998" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCY-gM-vSD">
                                 <rect key="frame" x="558" y="25" width="32" height="32"/>
                                 <state key="normal" image="close"/>
@@ -224,10 +228,13 @@
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="w1t-fr-5RN" secondAttribute="trailing" id="5XO-fr-BJs"/>
                             <constraint firstItem="Ng1-cd-zgq" firstAttribute="top" secondItem="m04-De-gL5" secondAttribute="bottom" constant="20" id="AUJ-XS-Xuw"/>
                             <constraint firstItem="AU0-pu-uhZ" firstAttribute="leading" secondItem="EaS-2H-2k4" secondAttribute="leadingMargin" constant="10" id="B3x-Rn-OfK"/>
+                            <constraint firstItem="8xU-of-p9y" firstAttribute="centerY" secondItem="EaS-2H-2k4" secondAttribute="centerY" id="GQi-6a-OS8"/>
+                            <constraint firstItem="8xU-of-p9y" firstAttribute="centerX" secondItem="EaS-2H-2k4" secondAttribute="centerX" id="I7K-Yn-4KU"/>
                             <constraint firstItem="SCY-gM-vSD" firstAttribute="top" secondItem="m04-De-gL5" secondAttribute="bottom" constant="5" id="Ipv-YW-aDf"/>
                             <constraint firstItem="w1t-fr-5RN" firstAttribute="top" secondItem="EaS-2H-2k4" secondAttribute="top" id="J6h-tS-1q8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="SCY-gM-vSD" secondAttribute="trailing" constant="-10" id="PzB-CJ-mNL"/>
@@ -245,8 +252,12 @@
                             <constraint firstItem="AU0-pu-uhZ" firstAttribute="top" secondItem="SCY-gM-vSD" secondAttribute="bottom" constant="15" id="vep-1c-R1f"/>
                             <constraint firstItem="w1t-fr-5RN" firstAttribute="leading" secondItem="EaS-2H-2k4" secondAttribute="leading" id="voV-Gu-zD0"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="nCd-hh-quZ" appends="YES" id="tJ4-wQ-Ggi"/>
+                        </connections>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="8xU-of-p9y" id="K9L-Z3-OMr"/>
                         <outlet property="findOnTheMapButton" destination="kbo-ws-Wxr" id="akL-cg-SJN"/>
                         <outlet property="locationInputTextField" destination="AU0-pu-uhZ" id="2nk-rl-BdJ"/>
                         <outlet property="mapView" destination="w1t-fr-5RN" id="fBH-K5-7Ua"/>
@@ -256,6 +267,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="12c-Pl-4jV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="nCd-hh-quZ">
+                    <connections>
+                        <action selector="userDidTapView:" destination="lQm-Eo-yEg" id="hut-cC-HiM"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-876" y="831"/>
         </scene>
@@ -274,18 +290,25 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DQk-yR-K5h">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </mapView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="dO3-Cv-ptw">
+                                <rect key="frame" x="282" y="281" width="37" height="37"/>
+                                <color key="color" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="DQk-yR-K5h" firstAttribute="leading" secondItem="cxB-Nf-C3z" secondAttribute="leading" id="6iq-8D-1WW"/>
+                            <constraint firstItem="dO3-Cv-ptw" firstAttribute="centerX" secondItem="cxB-Nf-C3z" secondAttribute="centerX" id="J8Q-7n-d1D"/>
                             <constraint firstAttribute="trailing" secondItem="DQk-yR-K5h" secondAttribute="trailing" id="Ndn-U9-xDf"/>
                             <constraint firstItem="VDL-YC-Obf" firstAttribute="top" secondItem="DQk-yR-K5h" secondAttribute="bottom" id="ViT-Q9-qnq"/>
+                            <constraint firstItem="dO3-Cv-ptw" firstAttribute="centerY" secondItem="cxB-Nf-C3z" secondAttribute="centerY" id="bKh-9u-OLT"/>
                             <constraint firstItem="DQk-yR-K5h" firstAttribute="top" secondItem="KRY-CV-O1J" secondAttribute="bottom" id="yPE-Go-wGf"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Xkf-7n-IYu"/>
                     <navigationItem key="navigationItem" id="P74-ND-Qfr"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="dO3-Cv-ptw" id="9cz-da-dA6"/>
                         <outlet property="mapView" destination="DQk-yR-K5h" id="HnO-Xa-6y3"/>
                     </connections>
                 </viewController>
