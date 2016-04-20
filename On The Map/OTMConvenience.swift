@@ -120,12 +120,7 @@ extension OTMClient {
                 } else {
                     completionHandlerForUserData(success: true, student: nil, error: NSError(domain: "Failed to get User Data", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getPublicUserData"]))
                 }
- 
-                
-                
 
-                
-                
             }
         }
     }
@@ -171,11 +166,8 @@ extension OTMClient {
         
         let jsonBody: [String:AnyObject] = [
             OTMClient.JSONBodyKeys.UniqueKey: currentStudent!.uniqueKey,
-            OTMClient.JSONBodyKeys.FirstName: "Minh",
-            OTMClient.JSONBodyKeys.LastName: "Benham",
-
-            //OTMClient.JSONBodyKeys.FirstName: currentStudent!.firstName,
-            //OTMClient.JSONBodyKeys.LastName: currentStudent!.lastName,
+            OTMClient.JSONBodyKeys.FirstName: currentStudent!.firstName,
+            OTMClient.JSONBodyKeys.LastName: currentStudent!.lastName,
             OTMClient.JSONBodyKeys.MapString: updatedStudent!.mapString!,
             OTMClient.JSONBodyKeys.MediaURL: updatedStudent!.mediaURL!,
             OTMClient.JSONBodyKeys.Latitude: updatedStudent!.latitude!,

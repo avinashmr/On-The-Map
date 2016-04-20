@@ -42,6 +42,8 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
        
         mapView.delegate = self
+
+        
         configureUI(.initial)
         
     }
@@ -177,10 +179,16 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
     
 }
 
+// MARK: - PostingViewController: UITextFieldDelegate
+
 extension OTMPostingViewController: UITextFieldDelegate {
+    
+    // MARK: UITextFieldDelegate
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
+    
 }
+
