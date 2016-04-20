@@ -38,9 +38,6 @@ class OTMLoginViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI(.initial)
-
-        usernameTextField.text = "avinash@me.com"
-        passwordTextField.text = "av1Flam3s"
         
         subscribeToNotification(UIKeyboardWillShowNotification, selector: UIConstants.Selectors.KeyboardWillShow)
         subscribeToNotification(UIKeyboardWillHideNotification, selector: UIConstants.Selectors.KeyboardWillHide)
