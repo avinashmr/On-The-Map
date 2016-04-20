@@ -12,18 +12,10 @@ import UIKit
 
 class OTMLoginViewController: UIViewController {
 
-    // MARK: ENUMs
-    // UI State Enums
-    private enum UIState {
-        case initial
-        case login
-        case stop
-    }
-    
     // Mark: Properties
     var keyboardOnScreen = false
     
-    // MARK: IBOutlets
+    // MARK: Outlets
     
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -33,12 +25,12 @@ class OTMLoginViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loginStackView: UIStackView!
     
-    // MARK: - viewDidLoad
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI(.initial)
-
+        configureUI()
         usernameTextField.text = "avinash@me.com"
         passwordTextField.text = "av1Flam3s"
         
@@ -49,40 +41,32 @@ class OTMLoginViewController: UIViewController {
         
     }
     
-    //MARK: - Login Button Press
+    //MARK: Login Button Press
     
     @IBAction func loginPressed(sender: AnyObject) {
 
-        if usernameTextField.text!.isEmpty || passwordTextField.text!.isEmpty {
-            displayError("Username or Password is empty.")
-            return
-        }
-        
-        startActivityIndicatorAndFade()
         OTMClient.sharedInstance().authenticateWithUdacity(usernameTextField.text, password: passwordTextField.text) { (success, errorString) in
             performUIUpdatesOnMain({ 
                 if success {
+
                     self.completeLogin()
                 } else {
                     self.displayError(errorString)
                 }
             })
         }
+        
     }
     
-    // Load Navigation Controller
     private func completeLogin() {
+
         let controller = storyboard!.instantiateViewControllerWithIdentifier("OTMNavigationController") as! UINavigationController
         presentViewController(controller, animated: true, completion: nil)
-        configureUI(.stop)
     }
     
-    // Alert View
-    private func displayError(errorString: String?) {
-        configureUI(.stop)
-        let alertView = UIAlertController(title: "Login Error", message: errorString, preferredStyle: .Alert)
-        alertView.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
-        self.presentViewController(alertView, animated: true, completion: nil)
+    func displayError(errorString: String?) {
+        //TODO: - Use UIAlert
+        print(errorString)
     }
 }
 
@@ -140,7 +124,7 @@ extension OTMLoginViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - LoginViewController - UI Elements
+// MARK: - LoginViewController (Configure UI)
 
 extension OTMLoginViewController {
     
@@ -159,51 +143,34 @@ extension OTMLoginViewController {
         }
     }
     
-    // Initialize UI depending on the states this login controller goes through.
-    private func configureUI(state: UIState) {
+    private func configureUI() {
+        activityIndicator.hidden = true
+        activityIndicator.stopAnimating()
         
-        switch state {
-        case .initial:
-            activityIndicator.hidden = true
-            activityIndicator.stopAnimating()
-            
-            // configure background gradient
-            let backgroundGradient = CAGradientLayer()
-            backgroundGradient.colors = [UIColor.orangeColor(), UIColor.blackColor()]
-            backgroundGradient.locations = [0.0, 10.0]
-            backgroundGradient.frame = view.frame
-            view.layer.insertSublayer(backgroundGradient, atIndex: 0)
-            
-            configureTextField(usernameTextField)
-            configureTextField(passwordTextField)
-
-        case .login:
-            startActivityIndicatorAndFade()
-            loginButton.enabled = false
-            passwordTextField.text = nil
-            
-        case .stop:
-            activityIndicator.hidden = true
-            activityIndicator.stopAnimating()
-            loginButton.enabled = true
-            loginStackView.alpha = 1.0
-        }
+        // configure background gradient
+        let backgroundGradient = CAGradientLayer()
+        backgroundGradient.colors = [UIColor.orangeColor(), UIColor.blackColor()]
+        backgroundGradient.locations = [0.0, 1.0]
+        backgroundGradient.frame = view.frame
+        view.layer.insertSublayer(backgroundGradient, atIndex: 0)
+        
+        configureTextField(usernameTextField)
+        configureTextField(passwordTextField)
+        
     }
     
-    // Configure Text Fields
     private func configureTextField(textField: UITextField) {
         let textFieldPaddingViewFrame = CGRectMake(0.0, 0.0, 13.0, 0.0)
         let textFieldPaddingView = UIView(frame: textFieldPaddingViewFrame)
         textField.leftView = textFieldPaddingView
         textField.leftViewMode = .Always
-        textField.backgroundColor = UIColor.whiteColor()
-        textField.textColor = UIColor.blackColor()
+        textField.backgroundColor = UIConstants.UI.GreyColor
+        textField.textColor = UIColor.whiteColor()
         textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
-        textField.tintColor = UIColor.orangeColor()
+        textField.tintColor = UIConstants.UI.BlueColor
         textField.delegate = self
     }
     
-    // Start Activity Indicator
     func startActivityIndicatorAndFade() {
         activityIndicator.hidden = false
         activityIndicator.startAnimating()
@@ -212,7 +179,7 @@ extension OTMLoginViewController {
     }
 }
 
-// MARK: - LoginViewController - Keyboard Notifications
+// MARK: - LoginViewController (Notifications)
 
 extension OTMLoginViewController {
     

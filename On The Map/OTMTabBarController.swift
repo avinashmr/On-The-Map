@@ -10,40 +10,24 @@ import UIKit
 
 class OTMTabBarController: UITabBarController {
     
-    // MARK: - IBOutlets
     @IBOutlet weak var logoutButton: UIBarButtonItem!
     @IBOutlet weak var addAPin: UIBarButtonItem!
     @IBOutlet weak var refreshButton: UIBarButtonItem!
     
-    // MARK: - IBActions
     @IBAction func addAPin(sender: AnyObject) {
         let viewController = storyboard!.instantiateViewControllerWithIdentifier("PostingViewController") 
         presentViewController(viewController, animated: true, completion: nil)
     }
     
+    
     @IBAction func refreshButtonPressed(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName(OTMClient.Notification.refreshData, object: nil)
     }
 
-    @IBAction func logout(sender: AnyObject) {
-        OTMClient.sharedInstance().logoutOfUdacity { (success, error) in
-            if success {
-                if let presentingViewController = self.presentingViewController {
-                    presentingViewController.dismissViewControllerAnimated(true, completion: nil)
-                } else {
-                    self.displayError(error)
-                }
-            }
-        }
-    }
-    
-    // MARK: - Functions
-    
-    // Update Student Location is in TabBarController so both MapView and TableView can access it.
     func updateStudentInformation(viewController: UIViewController, view: UIView,
                                   completionHandlerForStudentInformation: (success: Bool, error: String?) -> Void) {
         if Reachability.isConnectedToNetwork() == true {
-            OTMClient.sharedInstance().getStudentLocations({ (success, error) in
+            OTMClient.sharedInstance().getStudentLocations(100, completionHandlerForLocation: { (success, error) in
                 if success {
                     completionHandlerForStudentInformation(success: true, error: nil)
                 } else {
@@ -55,14 +39,20 @@ class OTMTabBarController: UITabBarController {
             completionHandlerForStudentInformation(success: false, error: "No Internet Connection to update data.")
         }
     }
-
-    private func displayError(errorString: String?) {
-        let alertView = UIAlertController(title: "Login Error", message: errorString, preferredStyle: .Alert)
-        alertView.addAction(UIAlertAction(title: "Okay", style: .Cancel, handler: nil))
-        self.presentViewController(alertView, animated: true, completion: nil)
+    
+    @IBAction func logout(sender: AnyObject) {
+        OTMClient.sharedInstance().logoutOfUdacity { (success, error) in
+            if success {
+                if let presentingViewController = self.presentingViewController {
+                    presentingViewController.dismissViewControllerAnimated(true, completion: nil)
+                } else {
+                    print("logout error")
+                }
+            }
+        }
     }
-
-    // MARK: - Shared Instance
+    
+    // MARK: Shared Instance
     // This is to share the functions above with MapView and TableView
     class func sharedInstance() -> OTMTabBarController {
         struct Singleton {

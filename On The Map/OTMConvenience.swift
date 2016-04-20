@@ -10,7 +10,6 @@ import UIKit
 
 extension OTMClient {
     
-    // Login to Udacity
     func authenticateWithUdacity(userName: String?, password: String?, completionHandlerForAuth: (success: Bool, errorString: String?) -> Void) {
         if (userName!.isEmpty || password!.isEmpty) {
             // Text fields are empty and fail.
@@ -26,7 +25,7 @@ extension OTMClient {
                             if success {
                                 completionHandlerForAuth(success: true, errorString: nil)
                             } else {
-                                completionHandlerForAuth(success: false, errorString: "Could not get User Data.")
+                                completionHandlerForAuth(success: false, errorString: "Could not get User Data")
                             }
                         })
                         
@@ -38,7 +37,8 @@ extension OTMClient {
             }
             else {
                 // Internet Connection fails.
-                completionHandlerForAuth(success: false, errorString: "Internet Connection Failed.")
+                print("Internet connection FAILED")
+                completionHandlerForAuth(success: false, errorString: "Internet Connection Failed")
             }
             
         }
@@ -51,6 +51,7 @@ extension OTMClient {
         } else {
             if !(urlString.lowercaseString.hasPrefix("http://")) {
                 let newURL = "http://" + urlString
+                print(newURL)
                 if UIApplication.sharedApplication().canOpenURL(NSURL(string: newURL)!) {
                     completionHandlerForURL(success: true, newURL: newURL, error: nil)
                 } else {
@@ -67,20 +68,17 @@ extension OTMClient {
     // API Usage: https://docs.google.com/document/d/1MECZgeASBDYrbBg7RlRu9zBBLGd3_kfzsN-0FtURqn0/pub?embedded=true
     
     // POSTing (Creating) a Session
-    private func getSessionID(userName: String?, password: String?, completionHandlerForSession: (success: Bool, error: String?) -> Void) {
+    private func getSessionID(userName: String?, password: String?, completionHandlerForSession: (success: Bool, errorString: NSError?) -> Void) {
         
         
-        let mutableMethod: String = Methods.Udacity.AuthorizationURL
-        let udacityBody: [String:AnyObject] = [
-            HTTPBodyKeys.Username: userName!,
-            HTTPBodyKeys.Password: password!
-        ]
+        let mutableMethod: String = Methods.AuthorizationURL
+        let udacityBody: [String:AnyObject] = [HTTPBodyKeys.Username: userName!, HTTPBodyKeys.Password: password!]
         let jsonBody: [String:AnyObject] = [HTTPBodyKeys.Udacity: udacityBody]
         
         
         taskForPOSTMethod(mutableMethod, udacity: true, parameters: nil, jsonBody: jsonBody) { (result, error) in
             if let error = error {
-                completionHandlerForSession(success: false, error: "getSessionID Error")
+                completionHandlerForSession(success: false, errorString: error)
                 
             } else {
                 if let id = result.valueForKey(JSONResponseKeys.Session)?.valueForKey(JSONResponseKeys.Id) as? String {
@@ -88,10 +86,10 @@ extension OTMClient {
                     if let key = result.valueForKey(JSONResponseKeys.Account)?.valueForKey(JSONResponseKeys.Key) as? String {
                         self.uniqueKey = key
                     }
-                    completionHandlerForSession(success: true, error: nil)
+                    completionHandlerForSession(success: true, errorString: nil)
                 }
                 else {
-                    completionHandlerForSession(success: false, error: "getSessionID Error")
+                    completionHandlerForSession(success: false, errorString: NSError(domain: "getSession Parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getSessionID result"]))
                     
                 }
                 
@@ -101,15 +99,15 @@ extension OTMClient {
     }
     
     // GETting Public User Data
-    private func getPublicUserData(uniqueKey: String?, completionHandlerForUserData: (success: Bool, student: StudentInformation?, error: String?) -> Void) {
+    private func getPublicUserData(uniqueKey: String?, completionHandlerForUserData: (success: Bool, student: StudentInformation?, error: NSError?) -> Void) {
         
         let parameters: [String:AnyObject] = [String:AnyObject]()
-        let method = Methods.Udacity.UserDataURL + uniqueKey!
+        let method = Methods.UserDataURL + uniqueKey!
         
         taskForGETMethod(method, udacity: true, parameters: parameters) { (result, error) in
             
             if let error = error {
-                completionHandlerForUserData(success: true, student: nil, error: "Could not parse publicUserData")
+                completionHandlerForUserData(success: true, student: nil, error: NSError(domain: "Failed to get User Data", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getPublicUserData"]))
             } else {
                 
                 if let lastName = result.valueForKey(JSONResponseKeys.User)?.valueForKey(JSONResponseKeys.Last_Name) as? String {
@@ -120,7 +118,7 @@ extension OTMClient {
                         }
                     }
                 } else {
-                    completionHandlerForUserData(success: true, student: nil, error: "Could not parse publicUserData")
+                    completionHandlerForUserData(success: true, student: nil, error: NSError(domain: "Failed to get User Data", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getPublicUserData"]))
                 }
 
             }
@@ -128,33 +126,36 @@ extension OTMClient {
     }
     
     // DELETEing a Session
+    
     func logoutOfUdacity(completionHandlerForUdacityLogout: (success: Bool, error: String?) -> Void) {
         
-        let method = Methods.Udacity.AuthorizationURL
+        let method = Methods.AuthorizationURL
         
         taskForDELETEMethod(method) { (result, error) in
             if let error = error {
                 completionHandlerForUdacityLogout(success: false, error: "Error Logging Out.")
             } else {
                 if let logoutID = result.valueForKey("session")?.valueForKey("id") as? String {
+                    print(logoutID)
                     completionHandlerForUdacityLogout(success: true, error: nil)
                 }
                 completionHandlerForUdacityLogout(success: false, error: "Error Logging Out.")
             }
         }
     }
+    
 
 
     // MARK: - PARSE
     // API Usage: https://docs.google.com/document/d/1E7JIiRxFR3nBiUUzkKal44l9JkSyqNWvQrNH4pDrOFU/pub?embedded=true
     
-    // Get Student Locations
-    func getStudentLocations(completionHandlerForLocation: (success: Bool, error: String?) -> Void) {
+    
+    func getStudentLocations(limit: Int?, completionHandlerForLocation: (success: Bool, error: String?) -> Void) {
         
         let parameters: [String:AnyObject] = [
-            OTMClient.ParameterKeys.Limit: OTMClient.Constants.downloadLimit,
-            OTMClient.ParameterKeys.Skip: OTMClient.Constants.skip,
-            OTMClient.ParameterKeys.Order: OTMClient.Constants.downloadOrder
+            "limit": limit!,
+            "skip": 0,
+            "order": "-updatedAt"
         ]
         
         let method = Methods.Parse.StudentLocations + OTMClient.escapedParameters(parameters)
@@ -175,8 +176,7 @@ extension OTMClient {
         }
         
     }
-
-    // Post a Student Location
+    
     func postAStudentLocation(updatedStudent: StudentInformation?, completionHandlerForStudentLocation: (success: Bool, error: String?) -> Void) {
         
         let method = Methods.Parse.StudentLocations
@@ -197,14 +197,17 @@ extension OTMClient {
                 completionHandlerForStudentLocation(success: false, error: "Error Posting Data")
             } else {
                 if let objectID = result.valueForKey("objectId") as? String {
+                    print(objectID)
                     completionHandlerForStudentLocation(success: true, error: nil)
+//                    print(NSString(data: result, encoding: NSUTF8StringEncoding))
                 } else {
                     completionHandlerForStudentLocation(success: false, error: "Could not post location")
                 }
             }
         }
+//        completionHandlerForStudentLocation(success: true, error: nil)
+        
     }
 
-    // TODO: Querying and PUTing StudentLocation
 }
 
