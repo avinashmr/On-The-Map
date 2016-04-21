@@ -17,8 +17,17 @@ class OTMTabBarController: UITabBarController {
     
     // MARK: - IBActions
     @IBAction func addAPin(sender: AnyObject) {
-        let viewController = storyboard!.instantiateViewControllerWithIdentifier("PostingViewController") 
-        presentViewController(viewController, animated: true, completion: nil)
+        if Reachability.isConnectedToNetwork() {
+            performUIUpdatesOnMain({
+                let viewController = self.storyboard!.instantiateViewControllerWithIdentifier("PostingViewController")
+                self.presentViewController(viewController, animated: true, completion: nil)
+            })
+
+        } else {
+            performUIUpdatesOnMain({
+                self.displayError("No Internet Connection to add a new pin. Try again later.")
+            })
+        }
     }
     
     @IBAction func refreshButtonPressed(sender: AnyObject) {
@@ -26,14 +35,20 @@ class OTMTabBarController: UITabBarController {
     }
 
     @IBAction func logout(sender: AnyObject) {
-        OTMClient.sharedInstance().logoutOfUdacity { (success, error) in
-            if success {
-                if let presentingViewController = self.presentingViewController {
-                    presentingViewController.dismissViewControllerAnimated(true, completion: nil)
-                } else {
-                    self.displayError(error)
+        if Reachability.isConnectedToNetwork() {
+            OTMClient.sharedInstance().logoutOfUdacity { (success, error) in
+                if success {
+                    performUIUpdatesOnMain({
+                        if let presentingViewController = self.presentingViewController {
+                            presentingViewController.dismissViewControllerAnimated(true, completion: nil)
+                        } else {
+                            self.displayError(error)
+                        }
+                    })
                 }
             }
+        } else {
+            self.displayError("No Internet Connection to properly logout.")
         }
     }
     

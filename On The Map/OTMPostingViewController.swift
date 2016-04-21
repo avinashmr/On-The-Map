@@ -51,75 +51,88 @@ class OTMPostingViewController: UIViewController, MKMapViewDelegate {
 
     // MARK: - IBActions
     @IBAction func findOnTheMap(sender: AnyObject) {
-        
         if locationInputTextField.text!.isEmpty {
             displayError("Please input a location.")
             return
         } else {
-            performUIUpdatesOnMain({
-                self.activityIndicator.hidden = false
-                self.activityIndicator.startAnimating()
+            if Reachability.isConnectedToNetwork() {
+                performUIUpdatesOnMain({
+                    self.activityIndicator.hidden = false
+                    self.activityIndicator.startAnimating()
 
-                let geocoder = CLGeocoder()
-                geocoder.geocodeAddressString(self.locationInputTextField.text!) { (results, error) in
-                    if (error != nil) {
-                        self.displayError("Could not find the location, please try again.")
-                        return
-                    } else {
-                        self.studyLocation = results?[0]
-                        self.configureUI(.done)
+                    let geocoder = CLGeocoder()
+                    geocoder.geocodeAddressString(self.locationInputTextField.text!) { (results, error) in
+                        if (error != nil) {
+                            self.displayError("Could not find the location, please try again.")
+                            return
+                        } else {
+                            self.studyLocation = results?[0]
+                            self.configureUI(.done)
 
-                        let placemark = MKPlacemark(placemark: self.studyLocation!)
-                        self.mapView.showAnnotations([placemark], animated: true)
+                            let placemark = MKPlacemark(placemark: self.studyLocation!)
+                            self.mapView.showAnnotations([placemark], animated: true)
+                        }
                     }
-                }
-            })
-            
+                })
+            } else {
+                performUIUpdatesOnMain({
+                    self.displayError("No Internet Connection to find location. Try again later.")
+                    return
+                })
+            }
         }
     }
 
 
     @IBAction func submitStudentInformation(sender: AnyObject) {
+        if Reachability.isConnectedToNetwork() {
+            var student = OTMClient.sharedInstance().currentStudent
 
-        var student = OTMClient.sharedInstance().currentStudent
-        
-        if (urlInputTextField.text!.isEmpty) {
-            displayError("URL is empty, try again.")
-            return
-        } else {
-            OTMClient.sharedInstance().formatURL(urlInputTextField.text!, completionHandlerForURL: { (success, newURL, error) in
+            if (urlInputTextField.text!.isEmpty) {
+                displayError("URL is empty, try again.")
+                return
+            } else {
+                OTMClient.sharedInstance().formatURL(urlInputTextField.text!, completionHandlerForURL: { (success, newURL, error) in
+                    if success {
+                        student?.mediaURL = newURL
+                    } else {
+                        self.displayError(error)
+                        return
+                    }
+                })
+            }
+
+            student?.mapString = locationInputTextField.text
+
+
+            if let location = studyLocation?.location {
+                student?.latitude = location.coordinate.latitude
+                student?.longtitude = location.coordinate.longitude
+            }
+            else {
+                displayError("Invalid Location.")
+                return
+            }
+
+            OTMClient.sharedInstance().postAStudentLocation(student) { (success, error) in
                 if success {
-                    student?.mediaURL = newURL
+                    // print("successfully posted a location")
+                    performUIUpdatesOnMain({
+                        NSNotificationCenter.defaultCenter().postNotificationName(OTMClient.Notification.refreshData, object: nil)
+                        self.dismissViewController()
+                    })
                 } else {
                     self.displayError(error)
-                    return
                 }
+            }
+
+
+        } else {
+            performUIUpdatesOnMain({
+                self.displayError("No Internet Connection to submit location. Try again later.")
+                return
             })
         }
-
-        student?.mapString = locationInputTextField.text
-        
-        
-        if let location = studyLocation?.location {
-            student?.latitude = location.coordinate.latitude
-            student?.longtitude = location.coordinate.longitude
-        }
-        else {
-            displayError("Invalid Location.")
-            return
-        }
-        
-        OTMClient.sharedInstance().postAStudentLocation(student) { (success, error) in
-            if success {
-                // print("successfully posted a location")
-            } else {
-                self.displayError(error)
-            }
-        
-        }
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(OTMClient.Notification.refreshData, object: nil)
-        self.dismissViewController()
     }
 
 
