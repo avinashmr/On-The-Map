@@ -70,7 +70,7 @@ class OTMClient: NSObject {
             
             if let JSONError = error {
                 
-                _ = OTMClient.errorForData(data, response: response, error: JSONError)
+                _ = OTMClient.errorForData(data!, response: response, error: JSONError)
                 completionHandlerForPOST(result: nil, error: error)
             } else {
                 var newData = data
@@ -111,7 +111,7 @@ class OTMClient: NSObject {
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             if let dataError = error {
-                OTMClient.errorForData(data, response: response, error: dataError)
+                OTMClient.errorForData(data!, response: response, error: dataError)
                 completionHandlerForGET(result: nil, error: dataError)
             } else {
                 var newData = data
@@ -173,9 +173,9 @@ class OTMClient: NSObject {
     }
     
     // MARK: Helper for error, see if a status_message is returned, otherwise return the previous error
-    class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError) -> NSError {
+    class func errorForData(data: NSData, response: NSURLResponse?, error: NSError) -> NSError {
         
-        if let parsedResult = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? [String : AnyObject] {
+        if let parsedResult = (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)) as? [String : AnyObject] {
             
             if let errorMessage = parsedResult[OTMClient.JSONResponseKeys.StatusMessage] as? String {
                 let userInfo = [NSLocalizedDescriptionKey : errorMessage]
